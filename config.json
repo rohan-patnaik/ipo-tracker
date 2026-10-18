@@ -1,0 +1,10 @@
+{
+  "gmp_benchmark_pct": 15,
+  "capital_inr": 300000,
+  "pans": 1,
+  "retail_cap_inr": 200000,
+  "site_url": "https://rohan-patnaik.github.io/ipo-tracker/",
+  "holidays": {
+    "2026-10-20": "Dussehra"
+  }
+}

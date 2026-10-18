@@ -1,0 +1,7 @@
+raw/
+site/
+data/auto.json
+data/seen_videos.json
+__pycache__/
+*.pyc
+.DS_Store

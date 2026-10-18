@@ -1,0 +1,39 @@
+{
+ "items": {
+  "fusion-cx-ipo": {
+   "name": "Fusion CX",
+   "slug": "fusion-cx-ipo",
+   "id": "2455",
+   "board": "mainboard",
+   "close": "2026-10-16",
+   "listing": "2026-10-22",
+   "issue_price": 289.0,
+   "anant": "C",
+   "call": "SKIP",
+   "tracked": false,
+   "gmp_at_close": 3.46,
+   "sub_total": 4.68,
+   "sub_retail": 5.99,
+   "listed": false,
+   "you": null
+  },
+  "hd-fire-protect-ipo": {
+   "name": "HD Fire Protect",
+   "slug": "hd-fire-protect-ipo",
+   "id": "2628",
+   "board": "mainboard",
+   "close": "2026-10-15",
+   "listing": "2026-10-21",
+   "issue_price": 271.0,
+   "anant": "A",
+   "call": "APPLY",
+   "tracked": false,
+   "gmp_at_close": 30.26,
+   "sub_total": 131.73,
+   "sub_retail": 30.55,
+   "listed": false,
+   "you": null
+  }
+ },
+ "updated_at": "2026-10-18T14:36+05:30"
+}

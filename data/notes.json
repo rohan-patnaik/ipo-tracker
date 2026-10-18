@@ -1,0 +1,116 @@
+{
+ "updated_at": "2026-10-18T14:40+05:30",
+ "headline": "Monday 19 Oct is the last day for Tonbo, Bonfiglioli, Zetwerk and Sahajanand. Jio and Paras open Wed 21 Oct (Tue 20 is a market holiday).",
+ "benchmark_note": "Anant never states a fixed GMP cut-off. In his ranking videos, A-category calls have carried about 15% GMP or more (German Green Steel was A at 15–17%), B sat around 6–15%, and C around 5%. Your 15% gate matches his pattern.",
+ "ipos": {
+  "tonbo-imaging-india-ipo": {
+   "anant": "A",
+   "anant_said": [
+    "Rated A. High-tech defence: thermal imaging, night vision, electro-optical systems, with international defence credentials.",
+    "Negatives: revenue fell 22% in FY26, working capital is stretched, Q1 FY27 was a loss, and P/E is above 75.",
+    "Do not decide on GMP alone. Watch whether the anchor book and HNI demand match the defence-sector buzz."
+   ],
+   "video": "https://www.youtube.com/watch?v=_oiGEjuRGbU&t=37",
+   "risk": "Medium",
+   "risk_why": "Huge GMP cushion and strong HNI demand, but the valuation is stretched and the latest quarter was a loss, so the GMP can swing.",
+   "verdict": "APPLY",
+   "condition": "Apply 1 lot at cut-off before 5 pm Mon. Sell on listing day using his Rule of 15 (exit if it breaks the first-15-minute low).",
+   "lots": 1
+  },
+  "bonfiglioli-transmissions-ipo": {
+   "anant": "A",
+   "anant_said": [
+    "Rated A. Italian parent, high profitability, almost no debt (D/E 0.01), ROCE ~25%; renewables and automation exposure.",
+    "Negatives: the entire issue is OFS, it pays royalty to the parent, related-party spends are ~30%, and P/E 46 is toward the higher side.",
+    "Big issue (₹2,533 Cr): keep watching subscription until the last day."
+   ],
+   "video": "https://www.youtube.com/watch?v=_oiGEjuRGbU&t=360",
+   "risk": "Medium",
+   "risk_why": "GMP clears 15% but has been volatile, and QIB was only 0.16× after day 2 on a large, fully OFS issue.",
+   "verdict": "CONDITIONAL",
+   "condition": "Apply 1 lot only if QIB is at least 1× and total at least 2× by about 2 pm Mon. Institutions usually bid on the last day; if they don't show up, skip.",
+   "lots": 1
+  },
+  "zetwerk-ipo": {
+   "anant": "B",
+   "anant_said": [
+    "Rated low B. ₹5,000 Cr+ issue with only ~10% GMP.",
+    "Revenue is growing 55% a year with blue-chip clients, but the net loss was ₹1,600 Cr in FY26 and 40% of revenue earns ~1% margin."
+   ],
+   "video": "https://www.youtube.com/watch?v=_oiGEjuRGbU&t=508",
+   "risk": "High",
+   "risk_why": "Loss-making, GMP under 10%, and only 0.31× subscribed after two days.",
+   "verdict": "SKIP",
+   "condition": "Below the 15% GMP gate and only B-rated.",
+   "lots": 0
+  },
+  "sahajanand-medical-technologies-ipo": {
+   "anant": "B",
+   "anant_said": [
+    "Rated B. 100+ patents, sells in 76 countries, PAT up 175% in FY26.",
+    "Negatives: P/E about 58, borrowings up from ₹175 Cr to ₹269 Cr, and little market buzz."
+   ],
+   "video": "https://www.youtube.com/watch?v=_oiGEjuRGbU&t=625",
+   "risk": "High",
+   "risk_why": "GMP around 6% and the issue was undersubscribed (0.83×) after two days.",
+   "verdict": "SKIP",
+   "condition": "Below the 15% GMP gate and only B-rated.",
+   "lots": 0
+  },
+  "jio-platforms-ipo": {
+   "anant": "A?",
+   "anant_said": [
+    "No A/B/C label yet. He calls the ~20% GMP 'healthy' and the IPO 'very interesting'.",
+    "Fully fresh issue with no OFS; Google and Meta are not selling. Money goes to repaying Jio's borrowings.",
+    "PAT margin ~20%, P/E ~33 vs Airtel ~41. India's 4th-largest company on listing.",
+    "Shareholder quota: if you held Reliance shares in demat by 14 Oct, you can file a second application in that quota (a separate lottery)."
+   ],
+   "video": "https://www.youtube.com/watch?v=ZtNgurtWYLI",
+   "risk": "Medium",
+   "risk_why": "Strong business and GMP above 15%, but a ₹30,213 Cr issue is a lot of supply, so the GMP could compress before listing.",
+   "verdict": "APPLY",
+   "condition": "Provisional until his ranking video and the anchor book. Recheck on Thu 22 Oct. If GMP stays at or above 15% on Fri 23 morning, apply.",
+   "lots": 1,
+   "lots_note": "A mega issue may give more than 1 lot to every applicant. If you're fine blocking more, apply up to the retail maximum (14 lots, ₹1,87,992); otherwise apply 1 lot."
+  },
+  "paras-healthcare-ipo": {
+   "anant": "—",
+   "anant_said": [
+    "Not covered yet. Expect his ranking video around Wed 21 Oct."
+   ],
+   "video": null,
+   "risk": "High",
+   "risk_why": "GMP 13.7% is under the gate, and it made losses in FY24 and FY25 before turning profitable in FY26.",
+   "verdict": "WAIT",
+   "condition": "Apply only if he rates it A and GMP reaches 15% by Fri 23 morning.",
+   "lots": 0
+  },
+  "hd-fire-protect-ipo": {
+   "anant": "A",
+   "anant_said": [
+    "Rated A ('interesting to watch'). No.2 fire-protection equipment maker, ROCE 40%; but the whole issue is OFS and it depends heavily on a few suppliers."
+   ],
+   "video": "https://www.youtube.com/watch?v=_oiGEjuRGbU&t=220",
+   "risk": "Low",
+   "risk_why": "131× subscribed with a stable ~25% GMP.",
+   "verdict": "APPLY",
+   "condition": "Closed 15 Oct, before the tracker started. If you applied, check allotment and use the listing-day plan.",
+   "lots": 0,
+   "tracked": false
+  },
+  "fusion-cx-ipo": {
+   "anant": "C",
+   "anant_said": [
+    "Rated C. ~5% GMP; risk of AI disruption, 85% of revenue from North America, top 5 customers bring 40%."
+   ],
+   "video": null,
+   "risk": "High",
+   "risk_why": "GMP ~5% and falling.",
+   "verdict": "SKIP",
+   "condition": "Closed 16 Oct. C-rated; nothing to do.",
+   "lots": 0,
+   "tracked": false
+  }
+ },
+ "_you_format": "Per IPO, add \"you\": {\"applied\": true, \"allotted\": true|false|null, \"gain_inr\": number|null} when the owner reports it."
+}
