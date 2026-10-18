@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-18T16:10+05:30",
+ "updated_at": "2026-10-18T15:51+05:30",
  "headline": "Calls are made on each IPO's last day and lock at 2 pm. Monday 19 Oct is the last day for Tonbo, Bonfiglioli, Zetwerk and Sahajanand; Jio and Paras open Wed 21 Oct and close Fri 23 Oct (Tue 20 is a market holiday).",
  "benchmark_note": "Anant never states a fixed GMP cut-off. In his ranking videos, A-category calls have carried about 15% GMP or more (German Green Steel was A at 15–17%), B sat around 6–15%, and C around 5%. Your 15% gate matches his pattern.",
  "ipos": {
@@ -53,6 +53,7 @@
    "anant": "A?",
    "anant_said": [
     "No A/B/C label yet. He calls the ~20% GMP 'healthy' and the IPO 'very interesting'.",
+    "17 Oct short: calls Jio 'a game changer for India' (cheap data drove the digital economy). Story only, no grade or GMP.",
     "Fully fresh issue with no OFS; Google and Meta are not selling. Money goes to repaying Jio's borrowings.",
     "PAT margin ~20%, P/E ~33 vs Airtel ~41. India's 4th-largest company on listing.",
     "Shareholder quota: if you held Reliance shares in demat by 14 Oct, you can file a second application in that quota (a separate lottery)."
@@ -61,7 +62,7 @@
    "risk": "Medium",
    "risk_why": "Strong business and GMP above 15%, but a ₹30,213 Cr issue is a lot of supply, so the GMP could compress before listing.",
    "lots_note": "A mega issue may give more than 1 lot to every applicant. If you're fine blocking more, apply up to the retail maximum (14 lots, ₹1,87,992); otherwise apply 1 lot.",
-   "anant_updated": "2026-10-16"
+   "anant_updated": "2026-10-17"
   },
   "paras-healthcare-ipo": {
    "anant": "—",
