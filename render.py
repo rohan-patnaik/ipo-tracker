@@ -408,7 +408,7 @@ def stats(rows):
 def stat_row(label, rows):
     s = stats(rows)
     if not s:
-        return f"<tr><td>{e(label)}</td><td colspan=4 class='muted'>No listings yet</td></tr>"
+        return f"<tr><td>{e(label)}</td><td colspan=5 class='muted'>No listings yet</td></tr>"
     return (f"<tr><td>{e(label)}</td><td>{s['n']}</td><td>{pct(s['avg_open'])}</td><td><b>{pct(s['avg'])}</b></td>"
             f"<td>{s['win']:.0f}%</td><td>{pct(s['worst'])}</td></tr>")
 
