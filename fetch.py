@@ -8,8 +8,10 @@ import datetime as dt
 import html
 import json
 import re
+import os
 import subprocess
 import sys
+import tempfile
 import urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
@@ -209,6 +211,8 @@ def gmp(d):
     trend = next((t for t in tables(page) if t and t[0][:2] == ["GMP Date", "GMP"]), [])
     rows = []
     for r in trend[1:]:
+        if len(r) < 2:
+            continue
         m = re.search(r"₹\s*(-?[\d,]+)\s*\((-?[\d.]+)%\)", r[1])
         if m:
             rows.append({"when": r[0], "gmp": num(m.group(1)), "pct": float(m.group(2)),
@@ -293,8 +297,13 @@ def _transcript_ytdlp(vid):
     return ""
 
 
+TRANSCRIPTS = Path(os.environ.get("IPO_TRANSCRIPT_DIR") or tempfile.gettempdir()) / "ipo-transcripts"
+MAX_NEW_PER_RUN = 6  # stay well under YouTube's rate limit
+
+
 def transcript(vid):
-    dest = RAW / "transcripts" / f"{vid}.txt"
+    """Download to a temporary folder only. Transcripts are never kept: the runner deletes them after reading."""
+    dest = TRANSCRIPTS / f"{vid}.txt"
     if dest.exists() and dest.stat().st_size > 500:
         return dest
     body = _transcript_api(vid) or _transcript_ytdlp(vid)
@@ -351,14 +360,25 @@ def main():
             vids = videos()
         except Exception as e:  # noqa: BLE001
             errors.append(f"rss: {e}")
+        # every unread video, not just ones titled "IPO": his market videos mention IPOs too
         seen_path = DATA / "seen_videos.json"
         seen = json.loads(seen_path.read_text()) if seen_path.exists() else {}
-        for v in vids:
-            if v["ipo"]:
-                p = transcript(v["id"])
-                v["transcript"] = str(p.relative_to(ROOT)) if p else None
-                v["new"] = v["id"] not in seen
-                seen.setdefault(v["id"], {"title": v["title"], "published": v["published"]})
+        fetched_now = 0
+        for v in vids:  # newest first
+            v["new"] = v["id"] not in seen
+            if not v["new"] or fetched_now >= MAX_NEW_PER_RUN:
+                continue
+            p = transcript(v["id"])
+            fetched_now += 1
+            v["transcript"] = str(p) if p else None
+            if p:
+                body = p.read_text()
+                v["mentions_ipo"] = bool(re.search(r"आईपीओ|\bIPO\b", body, re.I))
+                seen[v["id"]] = {"title": v["title"], "published": v["published"], "mentions_ipo": v["mentions_ipo"]}
+            else:  # captions not ready yet; retry next run unless the video is over 3 days old
+                age = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(v["published"])
+                if age.days >= 3:
+                    seen[v["id"]] = {"title": v["title"], "published": v["published"], "mentions_ipo": None}
         seen_path.write_text(json.dumps(seen, indent=1, ensure_ascii=False))
 
     fetched = dt.datetime.now(IST).isoformat(timespec="minutes")
@@ -376,11 +396,11 @@ def main():
                      f"/ IPOWatch {g2.get('pct')}% / Anant {ga.get('pct')}% · registrar {d.get('registrar')}")
         if d.get("financials"):
             lines += ["  - financials: " + " ;; ".join(d["financials"][:6])]
-    lines += ["", "## Anant's IPO videos (RSS, newest first)"]
+    lines += ["", "## Anant's new videos to read (newest first). Transcripts are temporary: delete after reading"]
     for v in vids:
-        if v["ipo"]:
-            lines.append(f"- {'NEW ' if v.get('new') else ''}{v['published'][:16]} [{v['title']}]({v['url']}) "
-                         f"transcript: {v.get('transcript')}")
+        if v.get("new"):
+            flag = {True: "MENTIONS IPO", False: "no IPO mention", None: "no transcript yet"}[v.get("mentions_ipo")]
+            lines.append(f"- {v['published'][:16]} [{v['title']}]({v['url']}) · {flag} · transcript: {v.get('transcript')}")
     lines += ["", "## Telegram (latest last)"]
     lines += [f"- {m['when']}: {m['text'][:400]}" for m in tg]
     (RAW / "digest.md").write_text("\n".join(lines))

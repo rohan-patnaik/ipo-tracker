@@ -5,10 +5,12 @@ Runs in the GitHub job and on the Mac. Never overwrites a frozen call.
 """
 import datetime as dt
 import json
+import os
 import re
 from pathlib import Path
 
 import fetch
+import rules
 
 ROOT = Path(__file__).resolve().parent
 CFG = json.loads((ROOT / "config.json").read_text())
@@ -16,12 +18,12 @@ AUTO = json.loads((ROOT / "data" / "auto.json").read_text())
 NOTES = json.loads((ROOT / "data" / "notes.json").read_text())
 PATH = ROOT / "data" / "results.json"
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
-NOW = dt.datetime.now(IST)
+NOW = dt.datetime.fromisoformat(os.environ["IPO_NOW"]) if os.environ.get("IPO_NOW") else dt.datetime.now(IST)  # IPO_NOW: tests only
 
 
-def closed(close_iso):
-    close = dt.date.fromisoformat(close_iso)
-    return NOW.date() > close or (NOW.date() == close and NOW.hour >= 17)
+def locked(close_iso):
+    """The call locks at 2 pm IST on the last day."""
+    return rules.stage(close_iso, NOW) in ("final", "closed")
 
 
 def gmp_at_close(history, close_iso):
@@ -43,22 +45,28 @@ def main():
     changed = False
     for slug, a in AUTO["ipos"].items():
         n = NOTES["ipos"].get(slug)
-        if not n or not a.get("close") or not closed(a["close"]):
+        if not n or not a.get("close") or not locked(a["close"]):
             continue
-        if slug not in items:  # freeze the call at close
+        if slug not in items:  # lock the call (first run from 2 pm on the last day)
             s = a.get("subscription") or {}
+            merged = {**a, **n}
+            dec = rules.decide(merged, CFG["gmp_benchmark_pct"], NOW)
             items[slug] = {
+                "locked_at": NOW.isoformat(timespec="minutes"), "why": dec["why"],
+                "checks": [[name, ok, text] for name, ok, text in dec["checks"]], "warn": dec["warn"],
+                "gmp_at_call": dec["gmp"],
                 "name": a["name"], "slug": slug, "id": a["id"], "board": a["board"],
                 "close": a["close"], "listing": a.get("listing"), "issue_price": a.get("price_high"),
-                "anant": n.get("anant"), "call": n.get("verdict"), "tracked": n.get("tracked", True),
+                "anant": n.get("anant"), "call": dec["call"] if n.get("tracked", True) else n.get("verdict"),
+                "tracked": n.get("tracked", True),
                 "gmp_at_close": gmp_at_close(((a.get("gmp") or {}).get("all") or []), a["close"]),
                 "sub_total": s.get("total"), "sub_retail": s.get("retail"),
                 "listed": False, "you": n.get("you"),
             }
             changed = True
         it = items[slug]
-        # the last-day numbers keep settling for a few hours after 5 pm; refresh until listing
-        if not it["listed"]:
+        # last-day numbers keep settling after 5 pm; refresh them (not the call) until listing
+        if not it["listed"] and rules.stage(a["close"], NOW) == "closed":
             s = a.get("subscription") or {}
             for k, v in (("sub_total", s.get("total")), ("sub_retail", s.get("retail")),
                          ("listing", a.get("listing"))):

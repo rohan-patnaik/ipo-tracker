@@ -5,8 +5,11 @@
 import datetime as dt
 import html
 import json
+import os
 import sys
 from pathlib import Path
+
+import rules
 
 ROOT = Path(__file__).resolve().parent
 CFG = json.loads((ROOT / "config.json").read_text())
@@ -22,7 +25,7 @@ def load(name, default):
 RESULTS = load("results.json", {"items": {}})["items"]
 BACKFILL = load("backfill.json", {"items": []})["items"]
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
-NOW = dt.datetime.now(IST)
+NOW = dt.datetime.fromisoformat(os.environ["IPO_NOW"]) if os.environ.get("IPO_NOW") else dt.datetime.now(IST)  # IPO_NOW: tests only
 TODAY = NOW.date()
 BENCH = CFG["gmp_benchmark_pct"]
 CAP = CFG["capital_inr"]
@@ -126,8 +129,7 @@ def gmp_sources(i):
     return out
 
 
-DEFAULT_NOTE = {"anant": "—", "anant_said": ["Not covered by Anant yet."], "risk": "—", "verdict": "WAIT",
-                "condition": "Waiting for Anant's view.", "lots": 0}
+DEFAULT_NOTE = {"anant": "—", "anant_said": ["Not covered by Anant yet."], "risk": "—"}
 
 ipos = []
 for slug, a in AUTO["ipos"].items():
@@ -140,14 +142,32 @@ for slug, a in AUTO["ipos"].items():
     a["lot_amt"] = (a.get("lot") or 0) * (a.get("price_high") or 0)
     g = (a.get("gmp") or {}).get("latest") or {}
     a["gmp_pct"], a["gmp_rs"], a["gmp_trend"] = g.get("pct"), g.get("gmp"), g.get("trend", "")
-    a["block"] = a["lot_amt"] * (a.get("lots") or 0)
+    # the call: computed by the last-day rule; locked at 2 pm on the last day (data/results.json)
+    if a.get("tracked", True) is False:
+        a["stage"], a["checks"], a["warn"], a["lean"] = "closed", [], None, None
+        a["condition"] = a.get("condition", "Closed before the tracker started.")
+    else:
+        dec = rules.decide(a, BENCH, NOW) if a.get("close") else {"stage": "watching", "call": None, "lean": "Dates not out",
+                                                                   "checks": [], "warn": None, "why": ""}
+        a.update(stage=dec["stage"], checks=dec["checks"], warn=dec["warn"], lean=dec["lean"])
+        locked = RESULTS.get(slug)
+        if dec["stage"] in ("final", "closed") and locked:
+            a["verdict"], a["condition"] = locked["call"], locked.get("why", "")
+            a["checks"] = [tuple(c) for c in locked.get("checks", [])] or a["checks"]
+            a["warn"] = locked.get("warn")
+        elif dec["stage"] == "watching":
+            a["verdict"], a["condition"] = "WATCH", dec["lean"] + ". " + dec["why"]
+        else:
+            a["verdict"], a["condition"] = dec["call"], dec["why"]
+    a["lots"] = 1 if a["verdict"] in ("APPLY", "CONDITIONAL") else 0
+    a["block"] = a["lot_amt"] * a["lots"]
     a["closed"] = is_closed(a)
     a["expected"] = a["price_high"] * (1 + a["gmp_pct"] / 100) if a.get("price_high") and a["gmp_pct"] is not None else None
     src = gmp_sources(a)
     a["gmp_spread"] = (max(p for _, p in src) - min(p for _, p in src)) if len(src) > 1 else 0
     ipos.append(a)
 
-RANK = {"APPLY": 0, "CONDITIONAL": 1, "WAIT": 2, "SKIP": 3}
+RANK = {"APPLY": 0, "CONDITIONAL": 1, "WATCH": 2, "SKIP": 3}
 live = sorted([i for i in ipos if not i["closed"]],
               key=lambda i: (i.get("close", ""), RANK.get(i["verdict"], 9), -(i["gmp_pct"] or 0)))
 closed = sorted([i for i in ipos if i["closed"] and (d(i.get("listing")) or TODAY) >= TODAY],
@@ -166,28 +186,19 @@ for day in horizon:
         peak, peak_day = tot, day
 peak_pct = min(100, 100 * peak / CAP)
 
-# ---------- self-check ----------
+# ---------- self-check (notes must be well-formed; the call itself is computed) ----------
 problems = []
-for i in ipos:
-    if i["closed"] or not i["has_note"]:
-        continue
-    nm, v = i["name"], i["verdict"]
-    if v not in RANK:
-        problems.append(f"{nm}: unknown verdict '{v}'.")
-    if v == "APPLY" and i["gmp_pct"] is not None and i["gmp_pct"] < BENCH:
-        problems.append(f"{nm}: marked Apply but GMP {i['gmp_pct']:.1f}% is under the {BENCH}% gate.")
-    if v == "APPLY" and i.get("anant") not in ("A", "A?"):
-        problems.append(f"{nm}: marked Apply without an A from Anant.")
-    if v in ("APPLY", "CONDITIONAL") and i["board"] == "sme" and i.get("anant") != "A":
-        problems.append(f"{nm}: SME IPO marked for applying without an A from Anant.")
-    if v in ("SKIP", "WAIT") and (i.get("lots") or 0) > 0:
-        problems.append(f"{nm}: {v.title()} but has {i['lots']} lot(s) budgeted.")
-    if i.get("risk") not in ("Low", "Medium", "High"):
+for slug, n in NOTES["ipos"].items():
+    nm = n.get("name") or slug
+    if n.get("anant", "—") not in ("A", "A?", "B", "C", "—"):
+        problems.append(f"{nm}: anant must be A, A?, B, C or —.")
+    if n.get("risk", "—") not in ("Low", "Medium", "High", "—"):
         problems.append(f"{nm}: risk must be Low, Medium or High.")
-    if v == "SKIP" and i.get("anant") == "A" and (i["gmp_pct"] or 0) >= BENCH + 5 and not i.get("override"):
-        problems.append(f"{nm}: Skip, but it passes both the A rating and the GMP gate. Add an 'override' reason if intended.")
+    ov = n.get("override")
+    if ov and (ov.get("verdict") != "SKIP" or not ov.get("reason")):
+        problems.append(f"{nm}: an override can only force SKIP, with a reason.")
 if peak > CAP:
-    problems.append(f"Peak money blocked {inr(peak)} is over the {inr(CAP)} limit.")
+    problems.append(f"Peak money blocked {inr(peak)} is over the {inr(CAP)} limit. Drop the weakest same-day Apply.")
 
 # ---------- day strip ----------
 events = {}
@@ -204,8 +215,9 @@ def day_tag(day):
     if iso in HOLIDAYS:
         return "Holiday", "hol"
     ev = events.get(iso, [])
-    if any(lbl == "Last day" and i["verdict"] in ("APPLY", "CONDITIONAL") and not i["closed"] for lbl, i in ev):
-        return "Apply", "act"
+    if any(lbl == "Last day" and not i["closed"] and (i["verdict"] in ("APPLY", "CONDITIONAL") or i.get("lean") == "Leaning apply")
+           for lbl, i in ev):
+        return "Decide", "act"
     for want, tag in (("Last day", "Closes"), ("Opens", "Opens"), ("Lists", "Listing"), ("Allotment", "Allot")):
         if any(lbl == want for lbl, _ in ev):
             return tag, ""
@@ -240,12 +252,18 @@ def listing_plan(i):
 
 todo = []
 for i in live:
-    if i["verdict"] == "APPLY":
-        todo.append((i["close"], 0, f"<b>{short(i['close'])}, by 5 pm:</b> apply {e(i['name'])}, {i['lots']} lot ({inr(i['block'])})."))
+    nm, day = e(i["name"]), short(i["close"])
+    if i["stage"] == "watching" and i.get("lean") == "Leaning apply":
+        todo.append((i["close"], 0, f"<b>{day}:</b> last day for {nm}. Leaning apply; the final call locks at 2 pm that day."))
+    elif i["stage"] == "watching" and i.get("lean") == "Waiting for Anant":
+        todo.append((i["close"], 0, f"<b>{day}:</b> last day for {nm}. Waiting for Anant's view; decided at 2 pm that day."))
+    elif i["verdict"] == "APPLY":
+        tag = "final call" if i["stage"] == "final" else "provisional; final at 2 pm"
+        todo.append((i["close"], 0, f"<b>{day}, by 5 pm:</b> apply {nm}, 1 lot ({inr(i['block'])}). <span class=sub2>{tag}</span>"))
     elif i["verdict"] == "CONDITIONAL":
-        todo.append((i["close"], 0, f"<b>{short(i['close'])}, about 2 pm:</b> {e(i['name'])}. {e(i['condition'])}"))
+        todo.append((i["close"], 0, f"<b>{day}:</b> {nm}. {e(i['condition'])} Final call at 2 pm."))
 for i in ipos:
-    applied = i["verdict"] in ("APPLY", "CONDITIONAL") or (i.get("you") or {}).get("applied")
+    applied = (i["verdict"] == "APPLY" and i["stage"] in ("final", "closed")) or (i.get("you") or {}).get("applied")
     if not applied:
         continue
     if i.get("allotment") and d(i["allotment"]) >= TODAY and i["closed"]:
@@ -282,7 +300,21 @@ def sub_cell(i):
 
 
 VERDICT = {"APPLY": ("Apply", "v-apply"), "CONDITIONAL": ("Apply if…", "v-cond"),
-           "SKIP": ("Skip", "v-skip"), "WAIT": ("Wait", "v-wait")}
+           "SKIP": ("Skip", "v-skip"), "WAIT": ("Wait", "v-wait"), "WATCH": ("Watching", "v-wait")}
+STAGE = {"provisional": "For now: ", "final": "Final: ", "closed": "", "watching": ""}
+
+
+def label(i):
+    text, cls = VERDICT.get(i["verdict"], (i["verdict"], ""))
+    return f'<span class="verdict {cls}">{STAGE.get(i.get("stage"), "")}{text}</span>'
+
+
+def checks_html(i):
+    mark = {True: "✓", False: "✗", None: "–"}
+    rows = "".join(f'<li class="c{"ok" if ok else "no" if ok is False else "na"}"><span>{mark[ok]}</span> {e(name)}: {e(text)}</li>'
+                   for name, ok, text in (i.get("checks") or []))
+    warn = f'<li class="cwarn"><span>!</span> {e(i["warn"])}</li>' if i.get("warn") else ""
+    return f'<ul class="checks">{rows}{warn}</ul>' if rows or warn else ""
 RISK = {"Low": "r-low", "Medium": "r-med", "High": "r-high"}
 
 
@@ -292,8 +324,7 @@ def days_attr(i):
 
 def row(i):
     o, o_why = odds(i)
-    vlabel, vcls = VERDICT.get(i["verdict"], (i["verdict"], ""))
-    money = (f'<div class="amt">{inr(i["block"])}</div><div class="sub2">{i["lots"]} lot × {inr(i["lot_amt"])}</div>'
+    money = (f'<div class="amt">{inr(i["block"])}</div><div class="sub2">1 lot × {inr(i["lot_amt"])}</div>'
              if i["block"] else "")
     exp = f'<div class="sub2">≈ {inr(i["expected"])} expected</div>' if i.get("expected") else ""
     return f"""<tr data-days="{days_attr(i)}" id="row-{e(i['slug'])}">
@@ -307,8 +338,8 @@ def row(i):
 <td data-l="Subscription"><div class="v">{sub_cell(i)}</div></td>
 <td data-l="Allotment odds"><div class="v"><b>{e(o)}</b><div class="sub2">{e(o_why)}</div></div></td>
 <td data-l="Risk"><div class="v"><span class="risk {RISK.get(i['risk'], '')}">{e(i['risk'])}</span></div></td>
-<td class="c-verdict" data-l="Verdict"><div class="v"><span class="verdict {vcls}">{vlabel}</span>{money}
-  <div class="cond">{e(i['condition'])}</div></div></td>
+<td class="c-verdict" data-l="Call"><div class="v">{label(i)}{money}
+  <div class="cond">{e(i['condition'])}</div>{checks_html(i)}</div></td>
 </tr>"""
 
 
@@ -335,7 +366,6 @@ def why(i):
     fin = [r for r in i.get("financials", []) if r.startswith(("Period Ended", "Total Income", "Profit After Tax"))]
     fin_html = "".join(f"<tr>{''.join(f'<td>{e(c.strip())}</td>' for c in r.split('|'))}</tr>" for r in fin)
     video = f'<a class="vid" href="{e(i["video"])}" target="_blank" rel="noopener">Watch his take</a>' if i.get("video") else ""
-    vlabel, vcls = VERDICT.get(i["verdict"], (i["verdict"], ""))
     extra = f'<p class="note">{e(i["lots_note"])}</p>' if i.get("lots_note") else ""
     src = gmp_sources(i)
     src_html = " · ".join(f"{n} {v:.1f}%" for n, v in src)
@@ -343,9 +373,9 @@ def why(i):
     anant_post = (f' <a href="{e(ga["url"])}" target="_blank" rel="noopener">Anant\'s post</a>' if ga else "")
     when = f"last day {short(i.get('close'))}" if not i["closed"] else f"lists {short(i.get('listing'))}"
     return f"""<section class="card" id="why-{e(i['slug'])}">
-<header><h3>{e(i['name'])}</h3><span class="verdict {vcls}">{vlabel}</span><span class="when">{when}</span>{video}</header>
+<header><h3>{e(i['name'])}</h3>{label(i)}<span class="when">{when}</span>{video}</header>
 <div class="split">
-  <div><h4>What Anant said</h4><ul>{''.join(f'<li>{e(s)}</li>' for s in i.get('anant_said', []))}</ul>{extra}
+  <div><h4>What Anant said{(" (latest view " + e(i["anant_updated"]) + ")") if i.get("anant_updated") else ""}</h4><ul>{''.join(f'<li>{e(s)}</li>' for s in i.get('anant_said', []))}</ul>{extra}
     <h4 class="gap">Listing day plan</h4><p>{e(listing_plan(i))}</p>
     <h4 class="gap">Check allotment ({short(i.get('allotment'))})</h4><p>{allot_links(i)}</p></div>
   <div><h4>Numbers</h4>
@@ -506,19 +536,14 @@ for i in ipos:
     page = f"{SITE}/#why-{i['slug']}"
     close, allot, listing = d(i.get("close")), d(i.get("allotment")), d(i.get("listing"))
     v = i["verdict"]
-    if close and not i["closed"]:
-        if v == "APPLY":
-            add_event(f"{i['slug']}-apply", close, (15, 0), 30,
-                      f"Apply {i['name']} IPO: {i['lots']} lot, {inr(i['block'])}",
-                      f"Last day. Bid at cut-off and approve the UPI mandate before 5 pm. {i['condition']}", page,
-                      ["-PT3H30M", "-PT0M"])
-        elif v == "CONDITIONAL":
-            add_event(f"{i['slug']}-check", close, (14, 15), 30, f"Check {i['name']} IPO: apply only if…",
-                      i["condition"] + " Bid before 5 pm if it passes.", page, ["-PT0M"])
-        elif v == "WAIT":
-            add_event(f"{i['slug']}-decide", close, (11, 45), 15, f"Decide on {i['name']} IPO (last day)",
-                      i["condition"] + " The tracker page has the latest call.", page, ["-PT0M"])
-    if (v in ("APPLY", "CONDITIONAL") and i.get("tracked", True)) or (i.get("you") or {}).get("applied"):
+    if close and not i["closed"] and i.get("lean") != "Leaning skip" and v != "SKIP":
+        add_event(f"{i['slug']}-morning", close, (11, 30), 15, f"Last day: {i['name']} IPO, provisional call on the page",
+                  "Final call locks at 2 pm. " + i["condition"], page, ["-PT0M"])
+        title = (f"Apply {i['name']} IPO: 1 lot, {inr(i['lot_amt'])} by 5 pm" if v == "APPLY" and i["stage"] == "final"
+                 else f"Final call for {i['name']} IPO: open the page")
+        add_event(f"{i['slug']}-final", close, (14, 15), 30, title,
+                  "If the final call is Apply: bid 1 lot at cut-off and approve the UPI mandate before 5 pm.", page, ["-PT0M"])
+    if (v == "APPLY" and i["stage"] in ("final", "closed") and i.get("tracked", True)) or (i.get("you") or {}).get("applied"):
         if allot and allot >= TODAY:
             add_event(f"{i['slug']}-allot", allot, (18, 0), 15, f"Allotment out: {i['name']}",
                       "Check whether you got shares: " + (registrar_url(i.get("registrar")) or "see the tracker page"),
@@ -591,6 +616,9 @@ table.main{width:100%;border-collapse:collapse}
 .risk{font-weight:600;font-size:13px;padding:2px 8px;border-radius:6px;white-space:nowrap}
 .r-low{background:var(--good-bg);color:var(--good)}.r-med{background:var(--mid-bg);color:var(--mid)}.r-high{background:var(--bad-bg);color:var(--bad)}
 .amt{font-weight:700;margin-top:6px}
+.checks{list-style:none;margin:6px 0 0;padding:0;font-size:12px}.checks li{display:flex;gap:6px}
+.checks span{width:12px;font-weight:700;flex:none}.cok span{color:var(--good)}.cno span{color:var(--bad)}.cna{color:var(--muted)}
+.cwarn{color:var(--warn)}
 .cond{font-size:13px;margin-top:4px;max-width:46ch}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:10px;margin-bottom:12px;overflow:hidden;scroll-margin-top:190px}
 .card header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--paper2);border-bottom:1px solid var(--line);padding:10px 14px}
@@ -681,7 +709,7 @@ page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 
 <h2>Open and upcoming</h2>
 <div class="tbl"><table class="main" id="live"><thead><tr><th>IPO</th><th>Apply window</th><th>Allotment</th><th>Listing</th><th>Price and lot</th>
-<th>GMP</th><th>Subscription</th><th>Allotment odds</th><th>Risk</th><th>Verdict</th></tr></thead>
+<th>GMP</th><th>Subscription</th><th>Allotment odds</th><th>Risk</th><th>Call (last day only)</th></tr></thead>
 <tbody>{''.join(row(i) for i in live) or '<tr><td colspan=10 class="muted">No IPOs open or announced right now.</td></tr>'}</tbody></table></div>
 
 {f'''<h2>Closed, waiting to list</h2><div class="tbl"><table class="main small"><thead><tr><th>IPO</th><th>Allotment</th><th>Listing</th><th>GMP</th><th>Subscribed</th><th>Listing day plan</th></tr></thead>
@@ -709,7 +737,9 @@ page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 
 <h2>How the calls are made</h2>
 <ul class="how">
-<li><b>Apply</b> when Anant rates it A and GMP is at least {BENCH}% on the last morning, with institutions (QIB) showing up. <b>Apply if…</b> passes on GMP and rating but one check is still open. <b>Wait</b> means not open yet or not covered by Anant. <b>Skip</b> fails the gate.</li>
+<li><b>Calls happen on the last day only.</b> Before that an IPO is <b>Watching</b>, with a lean. On the last day the page shows the call <b>for now</b>, and it <b>locks at 2 pm</b>, leaving three hours before the 5 pm UPI cut-off.</li>
+<li><b>Apply</b> needs all three: Anant's latest view is an A, the last-day GMP is at least {BENCH}% (the lowest source when they disagree by 5+ points), and institutions (QIB) have bid at least 1×. <b>Apply if…</b> (before 2 pm only) means rating and GMP pass and QIB hasn't reached 1× yet. Anything else is <b>Skip</b>.</li>
+<li>A GMP more than 30% below its peak is flagged, not blocked. Replaying past IPOs, that check never changed a call: every IPO whose GMP collapsed had also fallen under {BENCH}%.</li>
 <li><b>Allotment odds</b> are for one retail application. Every retail applicant enters a lottery for 1 lot, so the odds are retail lots on offer ÷ applications. Extra lots only help when lots outnumber applicants.</li>
 <li><b>GMP</b> shows InvestorGain first, then IPOWatch and Anant's own Telegram figure when he posts one. A gap of 5 points or more between sources is flagged, since grey-market quotes can be inflated.</li>
 <li><b>Risk</b> is the chance of losing money on listing day. Low: GMP 25%+ and steady, profitable, strong demand. Medium: GMP 15–25% or volatile, or one notable red flag. High: GMP under 15% or falling, loss-making, weak institutions, or SME.</li>
