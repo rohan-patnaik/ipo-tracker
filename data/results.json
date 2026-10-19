@@ -66,9 +66,9 @@
    "anant": "B",
    "call": "SKIP",
    "tracked": true,
-   "gmp_at_close": 4.36,
-   "sub_total": 1.53,
-   "sub_retail": 1.43,
+   "gmp_at_close": 6.98,
+   "sub_total": 14.21,
+   "sub_retail": 3.04,
    "listed": false,
    "you": null
   },
@@ -104,9 +104,9 @@
    "anant": "A",
    "call": "SKIP",
    "tracked": true,
-   "gmp_at_close": 17.06,
-   "sub_total": 4.29,
-   "sub_retail": 2.78,
+   "gmp_at_close": 21.67,
+   "sub_total": 46.05,
+   "sub_retail": 5.9,
    "listed": false,
    "you": null
   },
@@ -143,8 +143,8 @@
    "call": "SKIP",
    "tracked": true,
    "gmp_at_close": 3.31,
-   "sub_total": 0.54,
-   "sub_retail": 0.48,
+   "sub_total": 3.08,
+   "sub_retail": 0.68,
    "listed": false,
    "you": null
   },
@@ -180,12 +180,12 @@
    "anant": "A",
    "call": "APPLY",
    "tracked": true,
-   "gmp_at_close": 74.29,
-   "sub_total": 25.67,
-   "sub_retail": 16.52,
+   "gmp_at_close": 73.57,
+   "sub_total": 132.81,
+   "sub_retail": 31.11,
    "listed": false,
    "you": null
   }
  },
- "updated_at": "2026-10-19T14:03+05:30"
+ "updated_at": "2026-10-19T22:01+05:30"
 }
