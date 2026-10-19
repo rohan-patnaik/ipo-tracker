@@ -33,7 +33,159 @@
    "sub_retail": 30.55,
    "listed": false,
    "you": null
+  },
+  "sahajanand-medical-technologies-ipo": {
+   "locked_at": "2026-10-19T14:03+05:30",
+   "why": "Fails: Anant, GMP.",
+   "checks": [
+    [
+     "Anant",
+     false,
+     "Rated B"
+    ],
+    [
+     "GMP",
+     false,
+     "4.4% < 15%"
+    ],
+    [
+     "QIB",
+     true,
+     "1.26× ≥ 1×"
+    ]
+   ],
+   "warn": "GMP is 65% below its peak of 12.5%",
+   "gmp_at_call": 4.36,
+   "name": "Sahajanand Medical Technologies",
+   "slug": "sahajanand-medical-technologies-ipo",
+   "id": "2550",
+   "board": "mainboard",
+   "close": "2026-10-19",
+   "listing": "2026-10-23",
+   "issue_price": 344.0,
+   "anant": "B",
+   "call": "SKIP",
+   "tracked": true,
+   "gmp_at_close": 4.36,
+   "sub_total": 1.53,
+   "sub_retail": 1.43,
+   "listed": false,
+   "you": null
+  },
+  "bonfiglioli-transmissions-ipo": {
+   "locked_at": "2026-10-19T14:03+05:30",
+   "why": "Fails: QIB.",
+   "checks": [
+    [
+     "Anant",
+     true,
+     "Rated A"
+    ],
+    [
+     "GMP",
+     true,
+     "17.1% ≥ 15% (lowest source: InvestorGain)"
+    ],
+    [
+     "QIB",
+     false,
+     "0.40× < 1×"
+    ]
+   ],
+   "warn": "GMP is 44% below its peak of 30.4%",
+   "gmp_at_call": 17.06,
+   "name": "Bonfiglioli Transmissions",
+   "slug": "bonfiglioli-transmissions-ipo",
+   "id": "2861",
+   "board": "mainboard",
+   "close": "2026-10-19",
+   "listing": "2026-10-23",
+   "issue_price": 586.0,
+   "anant": "A",
+   "call": "SKIP",
+   "tracked": true,
+   "gmp_at_close": 17.06,
+   "sub_total": 4.29,
+   "sub_retail": 2.78,
+   "listed": false,
+   "you": null
+  },
+  "zetwerk-ipo": {
+   "locked_at": "2026-10-19T14:03+05:30",
+   "why": "Fails: Anant, GMP, QIB.",
+   "checks": [
+    [
+     "Anant",
+     false,
+     "Rated B"
+    ],
+    [
+     "GMP",
+     false,
+     "3.3% < 15%"
+    ],
+    [
+     "QIB",
+     false,
+     "0.62× < 1×"
+    ]
+   ],
+   "warn": "GMP is 78% below its peak of 15.2%",
+   "gmp_at_call": 3.31,
+   "name": "Zetwerk",
+   "slug": "zetwerk-ipo",
+   "id": "3091",
+   "board": "mainboard",
+   "close": "2026-10-19",
+   "listing": "2026-10-23",
+   "issue_price": 151.0,
+   "anant": "B",
+   "call": "SKIP",
+   "tracked": true,
+   "gmp_at_close": 3.31,
+   "sub_total": 0.54,
+   "sub_retail": 0.48,
+   "listed": false,
+   "you": null
+  },
+  "tonbo-imaging-india-ipo": {
+   "locked_at": "2026-10-19T14:03+05:30",
+   "why": "Passes all three checks.",
+   "checks": [
+    [
+     "Anant",
+     true,
+     "Rated A"
+    ],
+    [
+     "GMP",
+     true,
+     "74.3% ≥ 15%"
+    ],
+    [
+     "QIB",
+     true,
+     "5.10× ≥ 1×"
+    ]
+   ],
+   "warn": null,
+   "gmp_at_call": 74.29,
+   "name": "Tonbo Imaging India",
+   "slug": "tonbo-imaging-india-ipo",
+   "id": "3215",
+   "board": "mainboard",
+   "close": "2026-10-19",
+   "listing": "2026-10-23",
+   "issue_price": 700.0,
+   "anant": "A",
+   "call": "APPLY",
+   "tracked": true,
+   "gmp_at_close": 74.29,
+   "sub_total": 25.67,
+   "sub_retail": 16.52,
+   "listed": false,
+   "you": null
   }
  },
- "updated_at": "2026-10-18T14:36+05:30"
+ "updated_at": "2026-10-19T14:03+05:30"
 }
