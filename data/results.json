@@ -29,7 +29,7 @@
    "call": "APPLY",
    "tracked": false,
    "gmp_at_close": 30.26,
-   "sub_total": 131.73,
+   "sub_total": 92.32,
    "sub_retail": 30.55,
    "listed": false,
    "you": null
@@ -108,7 +108,11 @@
    "sub_total": 46.05,
    "sub_retail": 5.9,
    "listed": false,
-   "you": null
+   "you": {
+    "applied": true,
+    "allotted": null,
+    "gain_inr": null
+   }
   },
   "zetwerk-ipo": {
    "locked_at": "2026-10-19T14:03+05:30",
@@ -184,8 +188,12 @@
    "sub_total": 132.81,
    "sub_retail": 31.11,
    "listed": false,
-   "you": null
+   "you": {
+    "applied": true,
+    "allotted": null,
+    "gain_inr": null
+   }
   }
  },
- "updated_at": "2026-10-20T00:18+05:30"
+ "updated_at": "2026-10-20T11:18+05:30"
 }
