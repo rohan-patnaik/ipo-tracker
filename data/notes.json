@@ -1,6 +1,6 @@
 {
- "updated_at": "2026-10-20T11:30+05:30",
- "headline": "Calls are made on each IPO's last day and lock at 2 pm. Jio and Paras open Wed 21 Oct and close Fri 23 Oct. Tonbo (Final: Apply) and Bonfiglioli (Final: Skip) allot Wed 21 Oct and list Fri 23 Oct.",
+ "updated_at": "2026-10-21T11:25+05:30",
+ "headline": "Calls are made on each IPO's last day and lock at 2 pm. Jio and Paras are open now and close Fri 23 Oct. Tonbo and Bonfiglioli allotment is today (Wed 21 Oct); both list Fri 23 Oct.",
  "benchmark_note": "Anant never states a fixed GMP cut-off. In his ranking videos, A-category calls have carried about 15% GMP or more (German Green Steel was A at 15–17%), B sat around 6–15%, and C around 5%. Your 15% gate matches his pattern.",
  "ipos": {
   "tonbo-imaging-india-ipo": {
@@ -55,6 +55,7 @@
    "anant": "A?",
    "anant_said": [
     "No A/B/C label yet. He calls the ~20% GMP 'healthy' and the IPO 'very interesting'.",
+    "21 Oct Telegram (day 1): 'JIO QIB 15700 CR 🔥' and 'Today it's about Jai Jio'. Bullish on the institutional demand.",
     "19 Oct Telegram: anchor list out, 212 names (LIC, BlackRock, Fidelity, Govt of Singapore, HDFC/ICICI/SBI/Kotak MFs). He calls it 'overall a good quality anchor book'.",
     "19 Oct video '10 things to know': a factual explainer, no grade, says it is not advice. 100% fresh issue; ₹27,500 Cr (~91% of the issue) repays Reliance Jio Infocomm debt; P/E ~33 vs Airtel ~42; 53 Cr subscribers and ~60% of India's mobile data traffic; 28.5 Cr 5G users on its own 5G stack.",
     "17 Oct short: calls Jio 'a game changer for India' (cheap data drove the digital economy).",
@@ -62,18 +63,18 @@
    ],
    "video": "https://www.youtube.com/watch?v=hdoAp911qTM",
    "risk": "Medium",
-   "risk_why": "Strong business, a quality anchor book and GMP above 15%, but a ₹30,213 Cr issue is a lot of supply, so the GMP could compress before listing.",
+   "risk_why": "Strong business, a quality anchor book, heavy day-1 QIB demand and GMP above 15%, but a ₹30,213 Cr issue is a lot of supply, so the GMP could compress before listing.",
    "lots_note": "A mega issue may give more than 1 lot to every applicant. If you're fine blocking more, apply up to the retail maximum (14 lots, ₹1,87,992); otherwise apply 1 lot.",
-   "anant_updated": "2026-10-19"
+   "anant_updated": "2026-10-21"
   },
   "paras-healthcare-ipo": {
    "anant": "—",
    "anant_said": [
-    "Not covered yet. Expect his ranking video around Wed 21 Oct."
+    "Not covered yet. Expect his ranking video before it closes on Fri 23 Oct."
    ],
    "video": null,
    "risk": "High",
-   "risk_why": "GMP 12–14% is under the gate, and it made losses in FY24 and FY25 before turning profitable in FY26."
+   "risk_why": "GMP has fallen to ~7.5%, well under the gate, and it made losses in FY24 and FY25 before turning profitable in FY26."
   },
   "hd-fire-protect-ipo": {
    "anant": "A",
