@@ -6,6 +6,7 @@ import datetime as dt
 import html
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -115,6 +116,15 @@ def registrar_url(name):
         if name and k.lower() in name.lower():
             return v
     return None
+
+
+def allot_links(i):
+    """Allotment-check links. Each was opened and verified on 2026-10-21; BSE's page now redirects or blocks, so it's left out."""
+    links = [f'<a href="https://www.chittorgarh.com/ipo_allotment_status/{e(i["slug"])}/{e(i["id"])}/" target="_blank" rel="noopener">Chittorgarh (this IPO)</a>']
+    ru = registrar_url(i.get("registrar"))
+    if ru:
+        links.append(f'<a href="{ru}" target="_blank" rel="noopener">{e(i["registrar"])} (registrar)</a>')
+    return " · ".join(links)
 
 
 def gmp_sources(i):
@@ -268,7 +278,7 @@ for i in ipos:
         continue
     if i.get("allotment") and d(i["allotment"]) >= TODAY and i["closed"]:
         todo.append((i["allotment"], 1, f"<b>{short(i['allotment'])}, evening:</b> check whether you got {e(i['name'])} "
-                                        f"(<a href=\"#why-{e(i['slug'])}\">allotment links</a>)."))
+                                        f"({allot_links(i)})."))
     if i.get("listing") and d(i["listing"]) >= TODAY and i["closed"]:
         todo.append((i["listing"], 2, f"<b>{short(i['listing'])}:</b> {e(i['name'])} lists. {e(listing_plan(i))}"))
 todo = [t for _, _, t in sorted(todo)]
@@ -341,16 +351,6 @@ def row(i):
 <td class="c-verdict" data-l="Call"><div class="v">{label(i)}{money}
   <div class="cond">{e(i['condition'])}</div>{checks_html(i)}</div></td>
 </tr>"""
-
-
-def allot_links(i):
-    links = []
-    ru = registrar_url(i.get("registrar"))
-    if ru:
-        links.append(f'<a href="{ru}" target="_blank" rel="noopener">{e(i["registrar"])}</a>')
-    links.append(f'<a href="https://www.chittorgarh.com/ipo_allotment_status/{e(i["slug"])}/{e(i["id"])}/" target="_blank" rel="noopener">Chittorgarh</a>')
-    links.append('<a href="https://www.bseindia.com/investors/appli_check.aspx" target="_blank" rel="noopener">BSE</a>')
-    return " · ".join(links)
 
 
 def why(i):
@@ -750,6 +750,12 @@ page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 </div>
 <script>{JS}</script>
 </body></html>"""
+
+
+# every in-page link must land somewhere
+_ids = set(re.findall(r'id="([^"]+)"', page))
+for _a in sorted(set(re.findall(r'href="#([^"]+)"', page)) - _ids):
+    problems.append(f"Broken in-page link #{_a}.")
 
 out = ROOT / "site"
 out.mkdir(exist_ok=True)
