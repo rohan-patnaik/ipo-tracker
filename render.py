@@ -284,6 +284,7 @@ for i in ipos:
 todo = [t for _, _, t in sorted(todo)]
 
 
+
 # ---------- cells ----------
 def gmp_cell(i):
     p = i["gmp_pct"]
@@ -314,9 +315,20 @@ VERDICT = {"APPLY": ("Apply", "v-apply"), "CONDITIONAL": ("Apply if…", "v-cond
 STAGE = {"provisional": "For now: ", "final": "Final: ", "closed": "", "watching": ""}
 
 
+def applies_today(i):
+    """Last day is today and the call is (or may become) Apply."""
+    return i.get("close") == TODAY.isoformat() and not i["closed"] and i["verdict"] in ("APPLY", "CONDITIONAL")
+
+
+def yes_badge(i):
+    if not applies_today(i):
+        return ""
+    return '<span class="yes">YES · apply today</span>' if i["verdict"] == "APPLY" else '<span class="yes maybe">YES if QIB ≥ 1×</span>'
+
+
 def label(i):
     text, cls = VERDICT.get(i["verdict"], (i["verdict"], ""))
-    return f'<span class="verdict {cls}">{STAGE.get(i.get("stage"), "")}{text}</span>'
+    return yes_badge(i) + f'<span class="verdict {cls}">{STAGE.get(i.get("stage"), "")}{text}</span>'
 
 
 def checks_html(i):
@@ -607,7 +619,7 @@ table.main{width:100%;border-collapse:collapse}
 .c-verdict{min-width:200px}
 .sub2{font-size:12px;color:var(--muted)}.muted{color:var(--muted)}
 .warnline{font-size:12px;color:var(--warn);font-weight:600}
-.ok{color:var(--good)}.bad{color:var(--bad)}
+.yes{display:inline-block;background:#1f8a3b;color:#fff;font-weight:800;letter-spacing:.02em;padding:3px 9px;border-radius:999px;margin:0 6px 4px 0;font-size:.85em}.yes.maybe{background:#3f9a55}.applytoday{border:2px solid #1f8a3b;border-radius:14px;padding:12px 14px;margin:14px 0;background:var(--good-bg)}.applytoday>span{font-weight:800;color:var(--good);text-transform:uppercase;font-size:.8em;letter-spacing:.06em}.applytoday table{width:100%;border-collapse:collapse;margin-top:6px}.applytoday th,.applytoday td{text-align:left;padding:6px 8px;border-top:1px solid var(--line)}@media(max-width:700px){.applytoday thead{display:none}.applytoday td{display:block;border:0;padding:2px 0}.applytoday tr{display:block;border-top:1px solid var(--line);padding:8px 0}.applytoday td[data-l]::before{content:attr(data-l) ': ';color:var(--muted)}}.ok{color:var(--good)}.bad{color:var(--bad)}
 .cat{color:var(--ink)}
 .subgrid{display:grid;grid-template-columns:auto auto;gap:0 10px;font-size:13px}.subgrid span{color:var(--muted)}
 .verdict{display:inline-block;font-weight:700;font-size:13px;border-radius:6px;padding:2px 8px;white-space:nowrap}
@@ -681,6 +693,17 @@ rng = f"{days[0].strftime('%-d')}–{days[-1].strftime('%-d %B')}" if days[0].mo
 errors = AUTO.get("errors") or []
 webcal = SITE.replace("https://", "webcal://") + "/ipo.ics"
 
+today_rows = [i for i in live if applies_today(i)]
+apply_today = ""
+if today_rows:
+    trs = "".join(
+        f"<tr><td><b>{e(i['name'])}</b></td><td>{yes_badge(i)}</td><td data-l='Anant'>{e(i['anant'])}</td>"
+        f"<td data-l='GMP'>{'—' if i['gmp_pct'] is None else '%.1f%%' % i['gmp_pct']}</td>"
+        f"<td data-l='QIB'>{x((i.get('subscription') or {}).get('qib'))}</td><td data-l='Retail'>{x((i.get('subscription') or {}).get('retail'))}</td>"
+        f"<td data-l='Bid'><b>{inr(i['block'])}</b> (1 lot)</td><td data-l='Deadline'>UPI mandate by 5 pm</td></tr>" for i in today_rows)
+    apply_today = ('<div class="applytoday"><span>Apply today</span><table><thead><tr><th>IPO</th><th>Apply?</th><th>Anant</th>'
+                   '<th>GMP</th><th>QIB</th><th>Retail</th><th>Bid</th><th>Deadline</th></tr></thead><tbody>' + trs + '</tbody></table></div>')
+
 page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>IPO tracker · {rng}</title>
@@ -698,7 +721,7 @@ page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
  <div class="say" id="say" aria-live="polite">Tap a day to see what happens and highlight its IPOs.</div>
 </div>
 
-<div class="todo"><span>To do</span><ul>{''.join(f'<li>{t}</li>' for t in todo) or '<li>Nothing to do right now.</li>'}</ul></div>
+{apply_today}<div class="todo"><span>To do</span><ul>{''.join(f'<li>{t}</li>' for t in todo) or '<li>Nothing to do right now.</li>'}</ul></div>
 
 <div class="money"><div class="nums"><span>Most money blocked at once <b>{inr(peak)}</b> of {inr(CAP)}</span>
  <span class="sub2">{('on ' + peak_day.strftime('%a %-d %b')) if peak_day else ''} · UPI blocks the amount until allotment, then releases what isn't allotted</span></div>
