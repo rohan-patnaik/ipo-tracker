@@ -12,7 +12,7 @@
    "call": "SKIP",
    "tracked": false,
    "gmp_at_close": 3.46,
-   "sub_total": 4.68,
+   "sub_total": 2.57,
    "sub_retail": 5.99,
    "listed": false,
    "you": null
@@ -31,8 +31,11 @@
    "gmp_at_close": 30.26,
    "sub_total": 92.32,
    "sub_retail": 30.55,
-   "listed": false,
-   "you": null
+   "listed": true,
+   "you": null,
+   "list_open_pct": 23.62,
+   "list_close_pct": 13.19,
+   "list_high_pct": 25.46
   },
   "sahajanand-medical-technologies-ipo": {
    "locked_at": "2026-10-19T14:03+05:30",
@@ -195,5 +198,5 @@
    }
   }
  },
- "updated_at": "2026-10-20T11:18+05:30"
+ "updated_at": "2026-10-22T13:03+05:30"
 }
