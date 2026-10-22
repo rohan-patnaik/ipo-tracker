@@ -235,6 +235,28 @@ def ipowatch():
     return out
 
 
+def ipowatch_page(name):
+    """IPOWatch's own page for one IPO: its GMP updated daily, newest first. Used when InvestorGain has nothing."""
+    words = [w for w in re.sub(r"[^a-z0-9 ]", " ", name.lower()).split() if w not in ("ltd", "limited", "ipo")]
+    for n in sorted({len(words), 2}, reverse=True):
+        url = f"https://ipowatch.in/{'-'.join(words[:n])}-ipo-gmp-grey-market-premium/"
+        try:
+            page = get(url)
+        except Exception:  # noqa: BLE001
+            continue
+        trend = next((t for t in tables(page) if t and t[0][:2] == ["Date", "IPO GMP"]), [])
+        rows = []
+        for r in trend[1:]:
+            m = re.match(r"(\d{1,2}) ([A-Z][a-z]{2})", r[0])
+            pct = re.search(r"(-?[\d.]+)%", r[3] if len(r) > 3 else "")
+            if m and pct:
+                rows.append({"when": f"{m.group(1)}-{m.group(2)} {r[4] if len(r) > 4 else ''}".strip(),
+                             "gmp": num(r[1]), "pct": float(pct.group(1)), "trend": ""})
+        if rows:
+            return {"url": url, "latest": rows[0], "history": rows[:8], "all": rows}
+    return None
+
+
 def match(name, table):
     """Find an entry whose key shares the IPO's first two words (names differ across sites)."""
     norm = lambda s: re.sub(r"[^a-z0-9 ]", " ", s.lower()).split()  # noqa: E731
@@ -352,6 +374,17 @@ def main():
         errors.append(f"ipowatch: {e}")
     for d in ipos.values():
         d["gmp_ipowatch"] = match(d["name"], ipw)
+        if d.get("listing") and d["listing"] < dt.date.today().isoformat():
+            continue  # listed: no more grey market
+        try:
+            page = ipowatch_page(d["name"])
+        except Exception as e:  # noqa: BLE001
+            page = None
+            errors.append(f"{d['slug']} ipowatch page: {e}")
+        if page:
+            d["gmp_ipowatch"] = {**page["latest"], "url": page["url"]}
+            if not (d.get("gmp") or {}).get("latest"):  # InvestorGain down or empty: IPOWatch's daily GMP takes over
+                d["gmp"] = {**page, "source": "IPOWatch"}
         d["gmp_anant"] = telegram_gmp(tg, d["name"])
 
     vids = []

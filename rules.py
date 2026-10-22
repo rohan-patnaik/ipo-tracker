@@ -32,9 +32,10 @@ def stage(close_iso, now):
 def gmp_sources(i):
     out = []
     g = (i.get("gmp") or {}).get("latest") or {}
+    main = (i.get("gmp") or {}).get("source", "InvestorGain")
     if g.get("pct") is not None:
-        out.append(("InvestorGain", g["pct"]))
-    if (i.get("gmp_ipowatch") or {}).get("pct") is not None:
+        out.append((main, g["pct"]))
+    if main != "IPOWatch" and (i.get("gmp_ipowatch") or {}).get("pct") is not None:
         out.append(("IPOWatch", i["gmp_ipowatch"]["pct"]))
     if (i.get("gmp_anant") or {}).get("pct") is not None:
         out.append(("Anant", i["gmp_anant"]["pct"]))
@@ -54,7 +55,7 @@ def gmp_used(i):
 
 
 def peak_drop(i):
-    """How far today's GMP sits below its highest reading so far (InvestorGain history, newest first)."""
+    """How far today's GMP sits below its highest reading so far (InvestorGain, or IPOWatch when that is down; newest first)."""
     rows = [r["pct"] for r in ((i.get("gmp") or {}).get("all") or []) if r.get("pct", 0) > 0]
     if not rows:
         return None, None

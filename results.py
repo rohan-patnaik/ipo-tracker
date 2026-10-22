@@ -27,7 +27,7 @@ def locked(close_iso):
 
 
 def gmp_at_close(history, close_iso):
-    """Latest InvestorGain reading on or before the close date (rows look like '19-Oct 23:37')."""
+    """Latest GMP reading (InvestorGain or IPOWatch) on or before the close date (rows look like '19-Oct 23:37')."""
     close = dt.date.fromisoformat(close_iso)
     for r in history:  # newest first
         m = re.match(r"(\d{1,2})-([A-Z][a-z]{2})", r["when"])

@@ -130,9 +130,10 @@ def allot_links(i):
 def gmp_sources(i):
     out = []
     g = (i.get("gmp") or {}).get("latest") or {}
+    main = (i.get("gmp") or {}).get("source", "InvestorGain")
     if g.get("pct") is not None:
-        out.append(("InvestorGain", g["pct"]))
-    if (i.get("gmp_ipowatch") or {}).get("pct") is not None:
+        out.append((main, g["pct"]))
+    if main != "IPOWatch" and (i.get("gmp_ipowatch") or {}).get("pct") is not None:
         out.append(("IPOWatch", i["gmp_ipowatch"]["pct"]))
     if (i.get("gmp_anant") or {}).get("pct") is not None:
         out.append(("Anant", i["gmp_anant"]["pct"]))
@@ -764,7 +765,7 @@ page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <li><b>Apply</b> needs all three: Anant's latest view is an A, the last-day GMP is at least {BENCH}% (the lowest source when they disagree by 5+ points), and institutions (QIB) have bid at least 1×. <b>Apply if…</b> (before 2 pm only) means rating and GMP pass and QIB hasn't reached 1× yet. Anything else is <b>Skip</b>.</li>
 <li>A GMP more than 30% below its peak is flagged, not blocked. Replaying past IPOs, that check never changed a call: every IPO whose GMP collapsed had also fallen under {BENCH}%.</li>
 <li><b>Allotment odds</b> are for one retail application. Every retail applicant enters a lottery for 1 lot, so the odds are retail lots on offer ÷ applications. Extra lots only help when lots outnumber applicants.</li>
-<li><b>GMP</b> shows InvestorGain first, then IPOWatch and Anant's own Telegram figure when he posts one. A gap of 5 points or more between sources is flagged, since grey-market quotes can be inflated.</li>
+<li><b>GMP</b> shows InvestorGain first (IPOWatch's day-by-day page for that IPO takes over when InvestorGain is down or empty), then IPOWatch and Anant's own Telegram figure when he posts one. A gap of 5 points or more between sources is flagged, since grey-market quotes can be inflated.</li>
 <li><b>Risk</b> is the chance of losing money on listing day. Low: GMP 25%+ and steady, profitable, strong demand. Medium: GMP 15–25% or volatile, or one notable red flag. High: GMP under 15% or falling, loss-making, weak institutions, or SME.</li>
 <li><b>Money</b> assumes one PAN, 1 lot per IPO, and {inr(CAP)} total. SME IPOs only appear when Anant rates them A{(' (left out now: ' + e(', '.join(skipped_sme)) + ')') if skipped_sme else ''}.</li>
 <li><b>Selling</b> follows Anant: for a strong listing (around 25%+), use the Rule of 15. Note the low of the first 15 minutes and exit when it breaks. For an average one, sell in the pre-open.</li>
