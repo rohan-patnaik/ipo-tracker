@@ -1,6 +1,6 @@
 {
- "updated_at": "2026-10-21T13:40+05:30",
- "headline": "Calls are made on each IPO's last day and lock at 2 pm. Jio and Paras are open now and close Fri 23 Oct. Tonbo and Bonfiglioli allotment is today (Wed 21 Oct); both list Fri 23 Oct.",
+ "updated_at": "2026-10-22T13:45+05:30",
+ "headline": "Calls are made on each IPO's last day and lock at 2 pm. Jio and Paras close tomorrow (Fri 23 Oct); their calls lock at 2 pm then. Tonbo and Bonfiglioli list tomorrow (Fri 23 Oct).",
  "benchmark_note": "Anant never states a fixed GMP cut-off. In his ranking videos, A-category calls have carried about 15% GMP or more (German Green Steel was A at 15–17%), B sat around 6–15%, and C around 5%. Your 15% gate matches his pattern.",
  "ipos": {
   "tonbo-imaging-india-ipo": {
@@ -14,7 +14,11 @@
    "risk": "Medium",
    "risk_why": "Huge GMP cushion and strong HNI demand, but the valuation is stretched and the latest quarter was a loss, so the GMP can swing.",
    "anant_updated": "2026-10-13",
-   "you": {"applied": true, "allotted": null, "gain_inr": null}
+   "you": {
+    "applied": true,
+    "allotted": null,
+    "gain_inr": null
+   }
   },
   "bonfiglioli-transmissions-ipo": {
    "anant": "A",
@@ -27,7 +31,11 @@
    "risk": "Medium",
    "risk_why": "GMP clears 15% but has been volatile; QIB was only 0.40× at the 2 pm lock, then finished at 120.78× by the close.",
    "anant_updated": "2026-10-13",
-   "you": {"applied": true, "allotted": null, "gain_inr": null}
+   "you": {
+    "applied": true,
+    "allotted": null,
+    "gain_inr": null
+   }
   },
   "zetwerk-ipo": {
    "anant": "B",
@@ -54,19 +62,20 @@
   "jio-platforms-ipo": {
    "anant": "A?",
    "anant_said": [
+    "22 Oct video '7 mistakes that get IPO applications rejected' (no new grade): expects at least 1 lakh Jio applications to be rejected. One application per PAN across all demats; PAN and demat details must match exactly; approve the UPI mandate and keep the money in the bank until allotment; bid at the upper price (cut-off); apply in the primary holder's name from your own bank account; anything after the cut-off time is rejected.",
     "No A/B/C label yet. He calls the ~20% GMP 'healthy' and the IPO 'very interesting'.",
     "21 Oct midday Telegram: 'Sudden selling in Jio Platforms in grey market. GMP down', alongside 'Market all round selling'. A caution, not a call to skip.",
     "21 Oct short: fully subscribed in 15 minutes; GMP ~24%, the highest of its trend so far. Warns that many applications will be rejected: only one retail application per PAN (the Reliance shareholder quota is the only extra), approve the UPI mandate, and enter demat/bank details correctly.",
     "21 Oct Telegram (day 1): 'JIO QIB 15700 CR 🔥' and 'Today it's about Jai Jio'.",
     "19 Oct Telegram: anchor list out, 212 names (LIC, BlackRock, Fidelity, Govt of Singapore, HDFC/ICICI/SBI/Kotak MFs). He calls it 'overall a good quality anchor book'.",
     "19 Oct video '10 things to know': a factual explainer, no grade. 100% fresh issue; ₹27,500 Cr (~91%) repays Reliance Jio Infocomm debt; P/E ~33 vs Airtel ~42; 53 Cr subscribers and ~60% of India's mobile data traffic.",
-    "Shareholder quota (₹2,500 Cr): if you held Reliance shares in demat by 14 Oct, you can file a second application in that quota (a separate lottery). Employees get ₹54 off."
+    "Shareholder quota (₹2,500 Cr): if you held at least one Reliance share in any demat on your PAN on 14 Oct, you can file a second application there. He says it's allotted proportionately, not by lottery, so a bigger bid (up to just under ₹2L) gets more, and if money is limited he'd pick the shareholder quota over retail. Employees get ₹54 off."
    ],
-   "video": "https://www.youtube.com/watch?v=B_PHFfFw2hY",
+   "video": "https://www.youtube.com/watch?v=_xSRCh58tlk",
    "risk": "Medium",
    "risk_why": "Strong business, quality anchors and heavy day-1 QIB demand, but a ₹30,213 Cr issue is a lot of supply and the GMP already dipped midday on 21 Oct with the broader market.",
    "lots_note": "A mega issue may give more than 1 lot to every applicant. If you're fine blocking more, apply up to the retail maximum (14 lots, ₹1,87,992); otherwise apply 1 lot.",
-   "anant_updated": "2026-10-21"
+   "anant_updated": "2026-10-22"
   },
   "paras-healthcare-ipo": {
    "anant": "—",
