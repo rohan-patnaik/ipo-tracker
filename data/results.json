@@ -73,7 +73,7 @@
    "call": "SKIP",
    "tracked": true,
    "gmp_at_close": 6.98,
-   "sub_total": 14.21,
+   "sub_total": 10.02,
    "sub_retail": 3.04,
    "listed": false,
    "you": null
@@ -111,7 +111,7 @@
    "call": "SKIP",
    "tracked": true,
    "gmp_at_close": 21.67,
-   "sub_total": 46.05,
+   "sub_total": 32.25,
    "sub_retail": 5.9,
    "listed": false,
    "you": {
@@ -201,5 +201,5 @@
    }
   }
  },
- "updated_at": "2026-10-23T11:19+05:30"
+ "updated_at": "2026-10-23T12:16+05:30"
 }
