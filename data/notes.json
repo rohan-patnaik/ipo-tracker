@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-23T11:30+05:30",
+ "updated_at": "2026-10-23T12:00+05:30",
  "headline": "Today (Fri 23 Oct) is the last day for Jio and Paras: their calls lock at 2 pm and the UPI mandate is due by 5 pm. Tonbo listed at ₹1,160 (+65.7%) and Bonfiglioli at ₹586 (flat) this morning.",
  "benchmark_note": "Anant never states a fixed GMP cut-off. In his ranking videos, A-category calls have carried about 15% GMP or more (German Green Steel was A at 15–17%), B sat around 6–15%, and C around 5%. Your 15% gate matches his pattern.",
  "ipos": {
@@ -75,7 +75,12 @@
    "risk": "Medium",
    "risk_why": "Strong business, quality anchors and heavy day-1 QIB demand, but a ₹30,213 Cr issue is a lot of supply and the GMP already dipped midday on 21 Oct with the broader market.",
    "lots_note": "A mega issue may give more than 1 lot to every applicant. If you're fine blocking more, apply up to the retail maximum (14 lots, ₹1,87,992); otherwise apply 1 lot.",
-   "anant_updated": "2026-10-22"
+   "anant_updated": "2026-10-22",
+   "you": {
+    "applied": true,
+    "allotted": null,
+    "gain_inr": null
+   }
   },
   "paras-healthcare-ipo": {
    "anant": "—",
