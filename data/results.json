@@ -199,7 +199,87 @@
     "allotted": false,
     "gain_inr": 0
    }
+  },
+  "jio-platforms-ipo": {
+   "locked_at": "2026-10-23T19:13+05:30",
+   "why": "Passes all three checks.",
+   "checks": [
+    [
+     "Anant",
+     true,
+     "Positive, no letter grade"
+    ],
+    [
+     "GMP",
+     true,
+     "23.0% ≥ 15%"
+    ],
+    [
+     "QIB",
+     true,
+     "52.26× ≥ 1×"
+    ]
+   ],
+   "warn": null,
+   "gmp_at_call": 22.97,
+   "name": "Jio Platforms",
+   "slug": "jio-platforms-ipo",
+   "id": "3152",
+   "board": "mainboard",
+   "close": "2026-10-23",
+   "listing": "2026-10-28",
+   "issue_price": 1119.0,
+   "anant": "A?",
+   "call": "APPLY",
+   "tracked": true,
+   "gmp_at_close": 22.97,
+   "sub_total": 17.39,
+   "sub_retail": 2.67,
+   "listed": false,
+   "you": {
+    "applied": true,
+    "allotted": null,
+    "gain_inr": null
+   }
+  },
+  "paras-healthcare-ipo": {
+   "locked_at": "2026-10-23T19:13+05:30",
+   "why": "Fails: Anant, GMP.",
+   "checks": [
+    [
+     "Anant",
+     null,
+     "Not covered yet"
+    ],
+    [
+     "GMP",
+     false,
+     "1.6% < 15%"
+    ],
+    [
+     "QIB",
+     true,
+     "1.48× ≥ 1×"
+    ]
+   ],
+   "warn": "GMP is 89% below its peak of 13.8%",
+   "gmp_at_call": 1.59,
+   "name": "Paras Healthcare",
+   "slug": "paras-healthcare-ipo",
+   "id": "2256",
+   "board": "mainboard",
+   "close": "2026-10-23",
+   "listing": "2026-10-28",
+   "issue_price": 693.0,
+   "anant": "—",
+   "call": "SKIP",
+   "tracked": true,
+   "gmp_at_close": 1.59,
+   "sub_total": 1.31,
+   "sub_retail": 1.89,
+   "listed": false,
+   "you": null
   }
  },
- "updated_at": "2026-10-23T12:21+05:30"
+ "updated_at": "2026-10-23T19:13+05:30"
 }
