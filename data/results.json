@@ -116,8 +116,8 @@
    "listed": false,
    "you": {
     "applied": true,
-    "allotted": null,
-    "gain_inr": null
+    "allotted": false,
+    "gain_inr": 0
    }
   },
   "zetwerk-ipo": {
@@ -196,10 +196,10 @@
    "listed": false,
    "you": {
     "applied": true,
-    "allotted": null,
-    "gain_inr": null
+    "allotted": false,
+    "gain_inr": 0
    }
   }
  },
- "updated_at": "2026-10-23T12:16+05:30"
+ "updated_at": "2026-10-23T12:21+05:30"
 }
