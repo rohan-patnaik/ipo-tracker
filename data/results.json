@@ -75,8 +75,11 @@
    "gmp_at_close": 6.98,
    "sub_total": 10.02,
    "sub_retail": 3.04,
-   "listed": false,
-   "you": null
+   "listed": true,
+   "you": null,
+   "list_open_pct": 7.89,
+   "list_close_pct": 9.78,
+   "list_high_pct": 19.17
   },
   "bonfiglioli-transmissions-ipo": {
    "locked_at": "2026-10-19T14:03+05:30",
@@ -113,12 +116,15 @@
    "gmp_at_close": 21.67,
    "sub_total": 32.25,
    "sub_retail": 5.9,
-   "listed": false,
+   "listed": true,
    "you": {
     "applied": true,
     "allotted": false,
     "gain_inr": 0
-   }
+   },
+   "list_open_pct": 0.0,
+   "list_close_pct": -1.96,
+   "list_high_pct": 3.58
   },
   "zetwerk-ipo": {
    "locked_at": "2026-10-19T14:03+05:30",
@@ -155,8 +161,11 @@
    "gmp_at_close": 3.31,
    "sub_total": 1.71,
    "sub_retail": 0.77,
-   "listed": false,
-   "you": null
+   "listed": true,
+   "you": null,
+   "list_open_pct": 5.46,
+   "list_close_pct": -8.44,
+   "list_high_pct": 6.62
   },
   "tonbo-imaging-india-ipo": {
    "locked_at": "2026-10-19T14:03+05:30",
@@ -193,12 +202,15 @@
    "gmp_at_close": 72.86,
    "sub_total": 93.01,
    "sub_retail": 31.11,
-   "listed": false,
+   "listed": true,
    "you": {
     "applied": true,
     "allotted": false,
     "gain_inr": 0
-   }
+   },
+   "list_open_pct": 65.71,
+   "list_close_pct": 61.97,
+   "list_high_pct": 73.0
   },
   "jio-platforms-ipo": {
    "locked_at": "2026-10-23T19:13+05:30",
@@ -232,9 +244,9 @@
    "anant": "A?",
    "call": "APPLY",
    "tracked": true,
-   "gmp_at_close": 22.97,
-   "sub_total": 17.39,
-   "sub_retail": 2.67,
+   "gmp_at_close": 22.34,
+   "sub_total": 21.36,
+   "sub_retail": 2.76,
    "listed": false,
    "you": {
     "applied": true,
@@ -275,11 +287,11 @@
    "call": "SKIP",
    "tracked": true,
    "gmp_at_close": 1.59,
-   "sub_total": 1.31,
-   "sub_retail": 1.89,
+   "sub_total": 2.34,
+   "sub_retail": 2.1,
    "listed": false,
    "you": null
   }
  },
- "updated_at": "2026-10-23T19:13+05:30"
+ "updated_at": "2026-10-24T14:29+05:30"
 }
