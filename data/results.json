@@ -324,12 +324,12 @@
    "anant": "—",
    "call": "SKIP",
    "tracked": true,
-   "gmp_at_close": 0.54,
-   "sub_total": 1.08,
-   "sub_retail": 0.18,
+   "gmp_at_close": 1.56,
+   "sub_total": 5.51,
+   "sub_retail": 1.08,
    "listed": false,
    "you": null
   }
  },
- "updated_at": "2026-10-28T14:07+05:30"
+ "updated_at": "2026-10-28T21:44+05:30"
 }
