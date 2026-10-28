@@ -45,7 +45,11 @@ def main():
     changed = False
     for slug, a in AUTO["ipos"].items():
         n = NOTES["ipos"].get(slug)
-        if not n or not a.get("close") or not locked(a["close"]):
+        if not n:
+            if a.get("board") == "sme":
+                continue  # SME is tracked only when Anant rates it A
+            n = {"anant": "—"}  # mainboard he hasn't covered: still gets a call, with the Anant check failing
+        if not a.get("close") or not locked(a["close"]):
             continue
         if slug not in items:  # lock the call (first run from 2 pm on the last day)
             s = a.get("subscription") or {}
