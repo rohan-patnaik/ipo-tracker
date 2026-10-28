@@ -1,6 +1,6 @@
 {
- "updated_at": "2026-10-27T11:30+05:30",
- "headline": "Jio lists tomorrow (Wed 28 Oct); Anant reports 3 in 4 retail applicants got a lot. EAAA India Alternatives closes tomorrow (Wed 28). BLS Polymers and SFC Environmental opened today and close Thu 29; M.K.Sons opens Wed 28. Waiting for Anant's ranking video on these.",
+ "updated_at": "2026-10-28T11:35+05:30",
+ "headline": "Jio listed today at ₹1,358 (+21.4%); Paras at ₹720 (+3.9%). EAAA India Alternatives closes today (GMP under 1%). BLS Polymers (GMP ~29%) and SFC Environmental close tomorrow (Thu 29); M.K.Sons closes Fri 30. Anant hasn't ranked these yet.",
  "benchmark_note": "Anant never states a fixed GMP cut-off. In his ranking videos, A-category calls have carried about 15% GMP or more (German Green Steel was A at 15–17%), B sat around 6–15%, and C around 5%. Your 15% gate matches his pattern.",
  "ipos": {
   "tonbo-imaging-india-ipo": {
@@ -62,6 +62,7 @@
   "jio-platforms-ipo": {
    "anant": "A?",
    "anant_said": [
+    "28 Oct Telegram on listing day: 'Diwali came early', 'Jio 🔥🔥🔥'. Listed at ₹1,358 (+21.4%), in line with the ~22% GMP.",
     "26 Oct Telegram: allotment ratio — retail 3 out of 4 applicants, sHNI 1 in 9, bHNI 1 in 3; shareholder quota 7.59× (proportionate). Check on KFin (ipostatus.kfintech.com).",
     "23 Oct Telegram (after close): 'JIO Platforms IPO creates a buzz': total bids above ₹3 lakh Cr, QIB bids alone above ₹2 lakh Cr. Final subscription (Chittorgarh): QIB 67.15×, NII 13.99×, retail 2.76×, overall 21.36×.",
     "23 Oct Telegram (last day, 12 pm): QIB 14.38× (₹78,850 Cr), bHNI 10.73×, sHNI 6.68×, retail 2.02×, shareholder 5.68×, overall 6.87×; 97.24 lakh forms, retail 1.03× by applications. Also: an oversubscribed shareholder quota is allotted proportionately. No grade change, no red flag.",
@@ -78,7 +79,7 @@
    "risk": "Medium",
    "risk_why": "Strong business, quality anchors and heavy day-1 QIB demand, but a ₹30,213 Cr issue is a lot of supply and the GMP already dipped midday on 21 Oct with the broader market.",
    "lots_note": "A mega issue may give more than 1 lot to every applicant. If you're fine blocking more, apply up to the retail maximum (14 lots, ₹1,87,992); otherwise apply 1 lot.",
-   "anant_updated": "2026-10-26",
+   "anant_updated": "2026-10-28",
    "you": {
     "applied": true,
     "allotted": null,
