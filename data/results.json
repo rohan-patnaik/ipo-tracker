@@ -291,7 +291,45 @@
    "sub_retail": 2.1,
    "listed": false,
    "you": null
+  },
+  "eaaa-india-alternatives-ipo": {
+   "locked_at": "2026-10-28T14:07+05:30",
+   "why": "Fails: Anant, GMP.",
+   "checks": [
+    [
+     "Anant",
+     null,
+     "Not covered yet"
+    ],
+    [
+     "GMP",
+     false,
+     "0.5% < 15%"
+    ],
+    [
+     "QIB",
+     true,
+     "2.31× ≥ 1×"
+    ]
+   ],
+   "warn": "GMP is 93% below its peak of 7.3%",
+   "gmp_at_call": 0.54,
+   "name": "EAAA India Alternatives",
+   "slug": "eaaa-india-alternatives-ipo",
+   "id": "2061",
+   "board": "mainboard",
+   "close": "2026-10-28",
+   "listing": "2026-11-02",
+   "issue_price": 1665.0,
+   "anant": "—",
+   "call": "SKIP",
+   "tracked": true,
+   "gmp_at_close": 0.54,
+   "sub_total": 1.08,
+   "sub_retail": 0.18,
+   "listed": false,
+   "you": null
   }
  },
- "updated_at": "2026-10-28T11:23+05:30"
+ "updated_at": "2026-10-28T14:07+05:30"
 }
