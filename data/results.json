@@ -245,7 +245,7 @@
    "call": "APPLY",
    "tracked": true,
    "gmp_at_close": 22.34,
-   "sub_total": 21.36,
+   "sub_total": 15.63,
    "sub_retail": 2.76,
    "listed": false,
    "you": {
@@ -287,11 +287,11 @@
    "call": "SKIP",
    "tracked": true,
    "gmp_at_close": 1.59,
-   "sub_total": 2.34,
+   "sub_total": 1.29,
    "sub_retail": 2.1,
    "listed": false,
    "you": null
   }
  },
- "updated_at": "2026-10-24T14:29+05:30"
+ "updated_at": "2026-10-28T11:23+05:30"
 }
