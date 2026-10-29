@@ -83,23 +83,24 @@ def decide(i, gate, now):
     override = i.get("override") or {}
 
     call, why = None, ""
+    a_pass = a_ok is not False  # not covered = neutral; a B/C rating fails
     if st == "watching":
-        if a_ok is None:
-            lean = "Waiting for Anant"
-        elif a_ok and g_ok:
-            lean = "Leaning apply"
+        if a_ok is not False and g_ok:  # Anant silent counts as neutral
+            lean = "Leaning apply" if a_ok else "Leaning apply (Anant silent)"
+        elif a_ok is None and g_ok is None:
+            lean = "Waiting for GMP"
         else:
             lean = "Leaning skip"
         return {"stage": st, "call": None, "lean": lean, "checks": checks, "gmp": g, "warn": warn,
                 "why": "Decided on the last day only."}
     if override.get("verdict") == "SKIP":
         call, why = "SKIP", override.get("reason", "Skipped on Anant's latest view.")
-    elif a_ok and g_ok and q_ok:
-        call, why = "APPLY", "Passes all three checks."
-    elif a_ok and g_ok and st == "provisional" and not q_ok:
+    elif a_pass and g_ok and q_ok:
+        call, why = "APPLY", "Passes all three checks." if a_ok else "Anant hasn't covered it; GMP and QIB pass."
+    elif a_pass and g_ok and st == "provisional" and not q_ok:
         call, why = "CONDITIONAL", "Apply if institutions (QIB) reach 1× by 2 pm."
     else:
-        failed = [name for name, ok, _ in checks if not ok]
+        failed = [name for name, ok, _ in checks if not ok and not (name == "Anant" and ok is None)]
         call, why = "SKIP", "Fails: " + ", ".join(failed) + "."
     return {"stage": st, "call": call, "lean": None, "checks": checks, "gmp": g, "warn": warn, "why": why}
 

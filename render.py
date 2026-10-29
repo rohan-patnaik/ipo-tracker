@@ -226,7 +226,7 @@ def day_tag(day):
     if iso in HOLIDAYS:
         return "Holiday", "hol"
     ev = events.get(iso, [])
-    if any(lbl == "Last day" and not i["closed"] and (i["verdict"] in ("APPLY", "CONDITIONAL") or i.get("lean") == "Leaning apply")
+    if any(lbl == "Last day" and not i["closed"] and (i["verdict"] in ("APPLY", "CONDITIONAL") or i.get("lean", "").startswith("Leaning apply"))
            for lbl, i in ev):
         return "Decide", "act"
     for want, tag in (("Last day", "Closes"), ("Opens", "Opens"), ("Lists", "Listing"), ("Allotment", "Allot")):
@@ -264,7 +264,7 @@ def listing_plan(i):
 todo = []
 for i in live:
     nm, day = e(i["name"]), short(i["close"])
-    if i["stage"] == "watching" and i.get("lean") == "Leaning apply":
+    if i["stage"] == "watching" and (i.get("lean") or "").startswith("Leaning apply"):
         todo.append((i["close"], 0, f"<b>{day}:</b> last day for {nm}. Leaning apply; the final call locks at 2 pm that day."))
     elif i["stage"] == "watching" and i.get("lean") == "Waiting for Anant":
         todo.append((i["close"], 0, f"<b>{day}:</b> last day for {nm}. Waiting for Anant's view; decided at 2 pm that day."))
@@ -762,7 +762,7 @@ page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <h2>How the calls are made</h2>
 <ul class="how">
 <li><b>Calls happen on the last day only.</b> Before that an IPO is <b>Watching</b>, with a lean. On the last day the page shows the call <b>for now</b>, and it <b>locks at 2 pm</b>, leaving three hours before the 5 pm UPI cut-off.</li>
-<li><b>Apply</b> needs all three: Anant's latest view is an A, the last-day GMP is at least {BENCH}% (the lowest source when they disagree by 5+ points), and institutions (QIB) have bid at least 1×. <b>Apply if…</b> (before 2 pm only) means rating and GMP pass and QIB hasn't reached 1× yet. Anything else is <b>Skip</b>.</li>
+<li><b>Apply</b> needs all three: Anant's latest view is an A (or he hasn't covered it: silence counts as neutral, a B or C fails), the last-day GMP is at least {BENCH}% (the lowest source when they disagree by 5+ points), and institutions (QIB) have bid at least 1×. <b>Apply if…</b> (before 2 pm only) means rating and GMP pass and QIB hasn't reached 1× yet. Anything else is <b>Skip</b>.</li>
 <li>A GMP more than 30% below its peak is flagged, not blocked. Replaying past IPOs, that check never changed a call: every IPO whose GMP collapsed had also fallen under {BENCH}%.</li>
 <li><b>Allotment odds</b> are for one retail application. Every retail applicant enters a lottery for 1 lot, so the odds are retail lots on offer ÷ applications. Extra lots only help when lots outnumber applicants.</li>
 <li><b>GMP</b> shows InvestorGain first (IPOWatch's day-by-day page for that IPO takes over when InvestorGain is down or empty), then IPOWatch and Anant's own Telegram figure when he posts one. A gap of 5 points or more between sources is flagged, since grey-market quotes can be inflated.</li>
