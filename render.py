@@ -226,7 +226,7 @@ def day_tag(day):
     if iso in HOLIDAYS:
         return "Holiday", "hol"
     ev = events.get(iso, [])
-    if any(lbl == "Last day" and not i["closed"] and (i["verdict"] in ("APPLY", "CONDITIONAL") or i.get("lean", "").startswith("Leaning apply"))
+    if any(lbl == "Last day" and not i["closed"] and (i["verdict"] in ("APPLY", "CONDITIONAL") or (i.get("lean") or "").startswith("Leaning apply"))
            for lbl, i in ev):
         return "Decide", "act"
     for want, tag in (("Last day", "Closes"), ("Opens", "Opens"), ("Lists", "Listing"), ("Allotment", "Allot")):
