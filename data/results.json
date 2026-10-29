@@ -368,7 +368,7 @@
    "anant": "—",
    "call": "APPLY",
    "tracked": true,
-   "gmp_at_close": 46.67,
+   "gmp_at_close": 45.33,
    "sub_total": 241.22,
    "sub_retail": 128.36,
    "listed": false,
@@ -411,11 +411,11 @@
    "call": "SKIP",
    "tracked": true,
    "gmp_at_close": 5.76,
-   "sub_total": 9.12,
-   "sub_retail": 2.16,
+   "sub_total": 9.47,
+   "sub_retail": 2.71,
    "listed": false,
    "you": null
   }
  },
- "updated_at": "2026-10-29T21:53+05:30"
+ "updated_at": "2026-10-30T00:06+05:30"
 }
