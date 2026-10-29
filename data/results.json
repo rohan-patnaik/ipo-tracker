@@ -368,9 +368,9 @@
    "anant": "—",
    "call": "APPLY",
    "tracked": true,
-   "gmp_at_close": 40.0,
-   "sub_total": 64.66,
-   "sub_retail": 49.37,
+   "gmp_at_close": 46.67,
+   "sub_total": 241.22,
+   "sub_retail": 128.36,
    "listed": false,
    "you": {
     "applied": true,
@@ -410,12 +410,12 @@
    "anant": "—",
    "call": "SKIP",
    "tracked": true,
-   "gmp_at_close": 3.03,
-   "sub_total": 0.45,
-   "sub_retail": 0.47,
+   "gmp_at_close": 5.76,
+   "sub_total": 9.12,
+   "sub_retail": 2.16,
    "listed": false,
    "you": null
   }
  },
- "updated_at": "2026-10-29T14:14+05:30"
+ "updated_at": "2026-10-29T21:53+05:30"
 }
