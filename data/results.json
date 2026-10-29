@@ -335,7 +335,87 @@
    "sub_retail": 1.08,
    "listed": false,
    "you": null
+  },
+  "bls-polymers-ipo": {
+   "locked_at": "2026-10-29T14:14+05:30",
+   "why": "Anant hasn't covered it; GMP and QIB pass.",
+   "checks": [
+    [
+     "Anant",
+     null,
+     "Not covered yet"
+    ],
+    [
+     "GMP",
+     true,
+     "34.0% ≥ 15% (lowest source: IPOWatch)"
+    ],
+    [
+     "QIB",
+     true,
+     "12.25× ≥ 1×"
+    ]
+   ],
+   "warn": null,
+   "gmp_at_call": 34.0,
+   "name": "BLS Polymers",
+   "slug": "bls-polymers-ipo",
+   "id": "2559",
+   "board": "mainboard",
+   "close": "2026-10-29",
+   "listing": "2026-11-03",
+   "issue_price": 150.0,
+   "anant": "—",
+   "call": "APPLY",
+   "tracked": true,
+   "gmp_at_close": 40.0,
+   "sub_total": 64.66,
+   "sub_retail": 49.37,
+   "listed": false,
+   "you": {
+    "applied": true,
+    "allotted": null,
+    "gain_inr": null
+   }
+  },
+  "sfc-environmental-technologies-ipo": {
+   "locked_at": "2026-10-29T14:14+05:30",
+   "why": "Fails: GMP, QIB.",
+   "checks": [
+    [
+     "Anant",
+     null,
+     "Not covered yet"
+    ],
+    [
+     "GMP",
+     false,
+     "3.0% < 15%"
+    ],
+    [
+     "QIB",
+     false,
+     "0.09× < 1×"
+    ]
+   ],
+   "warn": "GMP is 69% below its peak of 9.7%",
+   "gmp_at_call": 3.03,
+   "name": "SFC Environmental Technologies",
+   "slug": "sfc-environmental-technologies-ipo",
+   "id": "2070",
+   "board": "mainboard",
+   "close": "2026-10-29",
+   "listing": "2026-11-03",
+   "issue_price": 330.0,
+   "anant": "—",
+   "call": "SKIP",
+   "tracked": true,
+   "gmp_at_close": 3.03,
+   "sub_total": 0.45,
+   "sub_retail": 0.47,
+   "listed": false,
+   "you": null
   }
  },
- "updated_at": "2026-10-29T11:16+05:30"
+ "updated_at": "2026-10-29T14:14+05:30"
 }
