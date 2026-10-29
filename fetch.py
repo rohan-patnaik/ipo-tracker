@@ -12,6 +12,8 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
+import urllib.error
 import urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
@@ -28,10 +30,20 @@ TODAY = dt.datetime.now(IST).date()
 WINDOW_BACK, WINDOW_AHEAD = 6, 21  # days around today an IPO must touch to be tracked
 
 
-def get(url):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return r.read().decode("utf-8", "ignore")
+def get(url, tries=3):
+    """Retry timeouts and network errors: one slow response from Chittorgarh used to fail the whole job."""
+    for n in range(tries):
+        try:
+            req = urllib.request.Request(url, headers=UA)
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return r.read().decode("utf-8", "ignore")
+        except urllib.error.HTTPError as e:
+            if e.code < 500 or n == tries - 1:
+                raise
+        except (TimeoutError, urllib.error.URLError, ConnectionError):
+            if n == tries - 1:
+                raise
+        time.sleep(5 * (n + 1))
 
 
 class Tables(HTMLParser):
