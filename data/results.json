@@ -247,12 +247,15 @@
    "gmp_at_close": 22.34,
    "sub_total": 15.63,
    "sub_retail": 2.76,
-   "listed": false,
+   "listed": true,
    "you": {
     "applied": true,
     "allotted": null,
     "gain_inr": null
-   }
+   },
+   "list_open_pct": 21.36,
+   "list_close_pct": 26.68,
+   "list_high_pct": 27.25
   },
   "paras-healthcare-ipo": {
    "locked_at": "2026-10-23T19:13+05:30",
@@ -289,8 +292,11 @@
    "gmp_at_close": 1.59,
    "sub_total": 1.29,
    "sub_retail": 2.1,
-   "listed": false,
-   "you": null
+   "listed": true,
+   "you": null,
+   "list_open_pct": 3.9,
+   "list_close_pct": 6.15,
+   "list_high_pct": 8.06
   },
   "eaaa-india-alternatives-ipo": {
    "locked_at": "2026-10-28T14:07+05:30",
@@ -331,5 +337,5 @@
    "you": null
   }
  },
- "updated_at": "2026-10-28T23:57+05:30"
+ "updated_at": "2026-10-29T11:16+05:30"
 }
