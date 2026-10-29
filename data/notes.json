@@ -120,6 +120,19 @@
    "condition": "Closed 16 Oct. C-rated; nothing to do.",
    "lots": 0,
    "tracked": false
+  },
+  "bls-polymers-ipo": {
+   "anant": "—",
+   "anant_said": [
+    "Not covered by Anant (no video or Telegram post on it before the close)."
+   ],
+   "risk": "Medium",
+   "risk_why": "Strong GMP (~34–37%) and heavy subscription, but no view from Anant.",
+   "you": {
+    "applied": true,
+    "allotted": null,
+    "gain_inr": null
+   }
   }
  },
  "_you_format": "Per IPO, add \"you\": {\"applied\": true, \"allotted\": true|false|null, \"gain_inr\": number|null} when the owner reports it.",
