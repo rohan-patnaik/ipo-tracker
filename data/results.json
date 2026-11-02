@@ -453,7 +453,45 @@
    "sub_retail": 3.08,
    "listed": false,
    "you": null
+  },
+  "bombay-coated-and-special-steels-ipo": {
+   "locked_at": "2026-11-02T16:07+05:30",
+   "why": "Fails: GMP.",
+   "checks": [
+    [
+     "Anant",
+     null,
+     "Not covered yet"
+    ],
+    [
+     "GMP",
+     false,
+     "11.0% < 15%"
+    ],
+    [
+     "QIB",
+     true,
+     "10.38× ≥ 1×"
+    ]
+   ],
+   "warn": null,
+   "gmp_at_call": 10.98,
+   "name": "Bombay Coated and Special Steels",
+   "slug": "bombay-coated-and-special-steels-ipo",
+   "id": "2671",
+   "board": "mainboard",
+   "close": "2026-11-02",
+   "listing": "2026-11-05",
+   "issue_price": 82.0,
+   "anant": "—",
+   "call": "SKIP",
+   "tracked": true,
+   "gmp_at_close": 10.98,
+   "sub_total": 19.11,
+   "sub_retail": 14.51,
+   "listed": false,
+   "you": null
   }
  },
- "updated_at": "2026-10-30T23:40+05:30"
+ "updated_at": "2026-11-02T16:07+05:30"
 }
