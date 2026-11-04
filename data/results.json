@@ -374,12 +374,15 @@
    "gmp_at_close": 45.33,
    "sub_total": 241.22,
    "sub_retail": 128.36,
-   "listed": false,
+   "listed": true,
    "you": {
     "applied": true,
     "allotted": null,
     "gain_inr": null
-   }
+   },
+   "list_open_pct": 65.33,
+   "list_close_pct": 79.2,
+   "list_high_pct": 90.0
   },
   "sfc-environmental-technologies-ipo": {
    "locked_at": "2026-10-29T14:14+05:30",
@@ -416,8 +419,11 @@
    "gmp_at_close": 5.76,
    "sub_total": 9.47,
    "sub_retail": 2.71,
-   "listed": false,
-   "you": null
+   "listed": true,
+   "you": null,
+   "list_open_pct": 7.61,
+   "list_close_pct": 29.12,
+   "list_high_pct": 29.12
   },
   "mksons-fine-jewels-ipo": {
    "locked_at": "2026-10-30T14:03+05:30",
@@ -496,5 +502,5 @@
    "you": null
   }
  },
- "updated_at": "2026-11-03T02:14+05:30"
+ "updated_at": "2026-11-04T16:03+05:30"
 }
