@@ -460,8 +460,11 @@
    "gmp_at_close": 3.7,
    "sub_total": 5.09,
    "sub_retail": 3.08,
-   "listed": false,
-   "you": null
+   "listed": true,
+   "you": null,
+   "list_open_pct": 5.56,
+   "list_close_pct": 0.12,
+   "list_high_pct": 8.02
   },
   "bombay-coated-and-special-steels-ipo": {
    "locked_at": "2026-11-02T16:07+05:30",
@@ -502,5 +505,5 @@
    "you": null
   }
  },
- "updated_at": "2026-11-04T16:03+05:30"
+ "updated_at": "2026-11-05T01:28+05:30"
 }
