@@ -620,7 +620,7 @@ table.main{width:100%;border-collapse:collapse}
 .c-verdict{min-width:200px}
 .sub2{font-size:12px;color:var(--muted)}.muted{color:var(--muted)}
 .warnline{font-size:12px;color:var(--warn);font-weight:600}
-.yes{display:inline-block;background:#1f8a3b;color:#fff;font-weight:800;letter-spacing:.02em;padding:3px 9px;border-radius:999px;margin:0 6px 4px 0;font-size:.85em}.yes.maybe{background:#3f9a55}.applytoday{border:2px solid #1f8a3b;border-radius:14px;padding:12px 14px;margin:14px 0;background:var(--good-bg)}.applytoday>span{font-weight:800;color:var(--good);text-transform:uppercase;font-size:.8em;letter-spacing:.06em}.applytoday table{width:100%;border-collapse:collapse;margin-top:6px}.applytoday th,.applytoday td{text-align:left;padding:6px 8px;border-top:1px solid var(--line)}@media(max-width:700px){.applytoday thead{display:none}.applytoday td{display:block;border:0;padding:2px 0}.applytoday tr{display:block;border-top:1px solid var(--line);padding:8px 0}.applytoday td[data-l]::before{content:attr(data-l) ': ';color:var(--muted)}}.ok{color:var(--good)}.bad{color:var(--bad)}
+.yes{display:inline-block;background:#1f8a3b;color:#fff;font-weight:800;letter-spacing:.02em;padding:3px 9px;border-radius:999px;margin:0 6px 4px 0;font-size:.85em}.yes.maybe{background:#3f9a55}.applytoday{border:2px solid #1f8a3b;border-radius:14px;padding:12px 14px;margin:14px 0;background:var(--good-bg)}.applytoday>span{font-weight:800;color:var(--good);text-transform:uppercase;font-size:.8em;letter-spacing:.06em}.applytoday table{width:100%;border-collapse:collapse;margin-top:6px}.applytoday th,.applytoday td{text-align:left;padding:6px 8px;border-top:1px solid var(--line)}@media(max-width:700px){.applytoday thead{display:none}.applytoday td{display:block;border:0;padding:2px 0}.applytoday tr{display:block;border-top:1px solid var(--line);padding:8px 0}.applytoday td[data-l]::before{content:attr(data-l) ': ';color:var(--muted)}}.ok{color:var(--good)}.bad{color:var(--bad)}.decide{border-color:var(--orange);background:var(--paper)}.decide>span{color:var(--orange)}.dec{display:inline-block;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}.d-yes{background:#1f8a3b;color:#fff}.d-maybe{background:var(--mid-bg);color:var(--mid)}.d-no{background:var(--bad-bg);color:var(--bad)}.d-wait{background:var(--tint);color:var(--ink)}
 .cat{color:var(--ink)}
 .subgrid{display:grid;grid-template-columns:auto auto;gap:0 10px;font-size:13px}.subgrid span{color:var(--muted)}
 .verdict{display:inline-block;font-weight:700;font-size:13px;border-radius:6px;padding:2px 8px;white-space:nowrap}
@@ -694,16 +694,51 @@ rng = f"{days[0].strftime('%-d')}–{days[-1].strftime('%-d %B')}" if days[0].mo
 errors = AUTO.get("errors") or []
 webcal = SITE.replace("https://", "webcal://") + "/ipo.ics"
 
-today_rows = [i for i in live if applies_today(i)]
-apply_today = ""
-if today_rows:
-    trs = "".join(
-        f"<tr><td><b>{e(i['name'])}</b></td><td>{yes_badge(i)}</td><td data-l='Anant'>{e(i['anant'])}</td>"
-        f"<td data-l='GMP'>{'—' if i['gmp_pct'] is None else '%.1f%%' % i['gmp_pct']}</td>"
-        f"<td data-l='QIB'>{x((i.get('subscription') or {}).get('qib'))}</td><td data-l='Retail'>{x((i.get('subscription') or {}).get('retail'))}</td>"
-        f"<td data-l='Bid'><b>{inr(i['block'])}</b> (1 lot)</td><td data-l='Deadline'>UPI mandate by 5 pm</td></tr>" for i in today_rows)
-    apply_today = ('<div class="applytoday"><span>Apply today</span><table><thead><tr><th>IPO</th><th>Apply?</th><th>Anant</th>'
-                   '<th>GMP</th><th>QIB</th><th>Retail</th><th>Bid</th><th>Deadline</th></tr></thead><tbody>' + trs + '</tbody></table></div>')
+# ---------- "Should I apply?": one row per open IPO, every board, plain yes/no ----------
+def decision(i):
+    """(badge, css, why) in plain words for the top table."""
+    if i.get("_sme_unrated"):
+        return "No", "d-no", "SME: your rule needs Anant's A, and he hasn't rated it."
+    v, last = i["verdict"], i.get("close") == TODAY.isoformat()
+    if v == "APPLY":
+        return ("YES, apply today" if last else "YES"), "d-yes", i.get("condition") or ""
+    if v == "CONDITIONAL":
+        return "YES if QIB ≥ 1×", "d-maybe", i.get("condition") or ""
+    if v == "SKIP":
+        return "No", "d-no", i.get("condition") or ""
+    lean = i.get("lean") or "Watching"
+    return f"Not yet: decide {short(i.get('close'))}", "d-wait", lean + "."
+
+
+sme_rows = []
+for s_, a in AUTO["ipos"].items():
+    if a["board"] == "sme" and NOTES["ipos"].get(s_, {}).get("anant") != "A" and not is_closed(a):
+        g = (a.get("gmp") or {}).get("latest") or {}
+        sme_rows.append({**a, "slug": s_, "_sme_unrated": True, "anant": NOTES["ipos"].get(s_, {}).get("anant", "—"),
+                         "gmp_pct": g.get("pct"), "lot_amt": (a.get("lot") or 0) * (a.get("price_high") or 0)})
+decide_rows = sorted(live + sme_rows, key=lambda i: (i.get("close") or "9", i.get("board") == "sme", -(i.get("gmp_pct") or 0)))
+
+
+def decide_row(i):
+    badge, cls, why_ = decision(i)
+    sub = i.get("subscription") or {}
+    g = i.get("gmp_pct")
+    gate = "—" if g is None else f"{g:.1f}% <span class='{'ok' if g >= BENCH else 'bad'}'>{'✓' if g >= BENCH else '✗'} {BENCH}%</span>"
+    a = i.get("anant") or "—"
+    rev = "Not reviewed" if a == "—" else f"Yes: {e(a)}"
+    last = "<b>Today, by 5 pm</b>" if i.get("close") == TODAY.isoformat() else short(i.get("close"))
+    return (f"<tr><td data-l='IPO'><b>{e(i['name'])}</b><div class='sub2'>{'SME' if i['board'] == 'sme' else 'Mainboard'}</div></td>"
+            f"<td data-l='Apply?'><span class='dec {cls}'>{e(badge)}</span></td><td data-l='Last day'>{last}</td>"
+            f"<td data-l='GMP vs gate'>{gate}</td><td data-l='Anant'>{rev}</td>"
+            f"<td data-l='QIB'>{x(sub.get('qib'))}</td><td data-l='Retail'>{x(sub.get('retail'))}</td>"
+            f"<td data-l='1 lot'>{inr(i['lot_amt'])}</td><td data-l='Why' class='sub2'>{e(why_)}</td></tr>")
+
+
+apply_today = ('<div class="applytoday decide"><span>Should I apply? · ' + TODAY.strftime('%a %-d %b') + '</span><table><thead><tr>'
+               '<th>IPO</th><th>Apply?</th><th>Last day</th><th>GMP vs gate</th><th>Anant reviewed?</th><th>QIB</th><th>Retail</th>'
+               '<th>1 lot</th><th>Why</th></tr></thead><tbody>'
+               + (''.join(decide_row(i) for i in decide_rows) or '<tr><td colspan=9 class="muted">No IPOs open right now. Nothing to apply for.</td></tr>')
+               + '</tbody></table></div>')
 
 page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
