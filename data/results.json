@@ -501,9 +501,12 @@
    "gmp_at_close": 9.76,
    "sub_total": 45.01,
    "sub_retail": 35.46,
-   "listed": false,
-   "you": null
+   "listed": true,
+   "you": null,
+   "list_open_pct": 10.98,
+   "list_close_pct": 15.62,
+   "list_high_pct": 16.52
   }
  },
- "updated_at": "2026-11-05T12:36+05:30"
+ "updated_at": "2026-11-06T01:41+05:30"
 }
