@@ -1,6 +1,6 @@
 {
- "updated_at": "2026-11-02T19:30+05:30",
- "headline": "Bombay Coated closed today and locked Skip (GMP 11%, under the 15% gate). BLS Polymers lists tomorrow (Tue 3 Nov), GMP was ~34–45%. No new mainboard IPO is open; Anant posted only gold and market videos since 30 Oct.",
+ "updated_at": "2026-11-19T13:45+05:30",
+ "headline": "Two mainboard IPOs this week. Crystal Crop Protection closes Fri 20 Nov and Mahanadi Coalfields (Coal India subsidiary) closes Mon 23 Nov. Anant (18 Nov) rates both 'interesting to watch', not an apply, and both GMPs are around 5%, well under your 15% gate.",
  "benchmark_note": "Anant never states a fixed GMP cut-off. In his ranking videos, A-category calls have carried about 15% GMP or more (German Green Steel was A at 15–17%), B sat around 6–15%, and C around 5%. Your 15% gate matches his pattern.",
  "ipos": {
   "tonbo-imaging-india-ipo": {
@@ -133,6 +133,34 @@
     "allotted": null,
     "gain_inr": null
    }
+  },
+  "crystal-crop-protection-ipo": {
+   "anant": "B",
+   "anant_updated": "2026-11-18",
+   "video": "https://www.youtube.com/watch?v=mRFyCeTHM7k",
+   "anant_said": [
+    "18 Nov video (both IPOs): no letter grade; puts it in his 'interesting to watch out' bucket, not an apply.",
+    "Price band ₹259–272 came in above the ~₹250 expected; small ₹455 Cr issue (₹355 Cr fresh, ~₹100 Cr OFS).",
+    "Revenue +16%, PAT +22% (FY26 vs FY25), but borrowings keep rising (₹952 Cr) and working capital is long (~265 days).",
+    "Red flag he dislikes: legal/regulatory proceedings, ~₹75 Cr for foreign-trade-policy violations against the company, directors and promoter.",
+    "GMP fell from 14–15% to ~5%. He'll look closer only if anchor book and subscription come in 'crazy'; otherwise cautious."
+   ],
+   "risk": "High",
+   "risk_why": "GMP ~6%, well under 15%; regulatory proceedings (~₹75 Cr) and rising debt."
+  },
+  "mahanadi-coalfields-ipo": {
+   "anant": "B",
+   "anant_updated": "2026-11-18",
+   "video": "https://www.youtube.com/watch?v=mRFyCeTHM7k",
+   "anant_said": [
+    "18 Nov video: 'interesting to watch out'; decide after the anchor book, QIB response and subscription.",
+    "Coal India subsidiary, ~21% of India's coal; PAT ~₹10,700 Cr, EBITDA margin ~43–47%, P/E ~8.4, market cap ~₹90,000 Cr.",
+    "Shareholder quota for anyone who held 1 Coal India share on the cut-off (12–13 Nov). Retail lot 110 shares = ₹14,960.",
+    "Negatives: revenue −3%, PAT −1% last year; price ₹136 set 5–10% above expectations; 97% thermal coal; ₹2,864 Cr demand notice (contingent liability).",
+    "GMP slid from 15–20% before the price band to ~₹4 (3%)."
+   ],
+   "risk": "High",
+   "risk_why": "GMP ~3–5%, under 15%; flat-to-falling recent financials and a ₹2,864 Cr contingent liability."
   }
  },
  "_you_format": "Per IPO, add \"you\": {\"applied\": true, \"allotted\": true|false|null, \"gain_inr\": number|null} when the owner reports it.",

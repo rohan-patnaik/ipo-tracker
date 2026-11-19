@@ -426,6 +426,16 @@ def main():
                     seen[v["id"]] = {"title": v["title"], "published": v["published"], "mentions_ipo": None}
         seen_path.write_text(json.dumps(seen, indent=1, ensure_ascii=False))
 
+    # sources quote GMP % as 0 when the ₹ GMP was posted before the price band; work it out ourselves
+    for d in ipos.values():
+        price = d.get("price_high")
+        for src in (d.get("gmp"), d.get("gmp_ipowatch")):
+            if not src or not price:
+                continue
+            for r in [src] + [src.get("latest")] + (src.get("history") or []) + (src.get("all") or []):
+                if isinstance(r, dict) and r.get("gmp") and not r.get("pct"):
+                    r["pct"] = round(100 * r["gmp"] / price, 2)
+
     fetched = dt.datetime.now(IST).isoformat(timespec="minutes")
     auto = {"fetched_at": fetched, "ipos": ipos, "videos": vids, "telegram": tg, "errors": errors}
     (DATA / "auto.json").write_text(json.dumps(auto, indent=1, ensure_ascii=False))
