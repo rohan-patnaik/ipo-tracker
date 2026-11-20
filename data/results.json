@@ -506,7 +506,45 @@
    "list_open_pct": 10.98,
    "list_close_pct": 15.62,
    "list_high_pct": 16.52
+  },
+  "crystal-crop-protection-ipo": {
+   "locked_at": "2026-11-20T16:28+05:30",
+   "why": "Fails: Anant, GMP.",
+   "checks": [
+    [
+     "Anant",
+     false,
+     "Rated B"
+    ],
+    [
+     "GMP",
+     false,
+     "5.2% < 15%"
+    ],
+    [
+     "QIB",
+     true,
+     "15.42× ≥ 1×"
+    ]
+   ],
+   "warn": "GMP is 65% below its peak of 14.7%",
+   "gmp_at_call": 5.15,
+   "name": "Crystal Crop Protection",
+   "slug": "crystal-crop-protection-ipo",
+   "id": "2813",
+   "board": "mainboard",
+   "close": "2026-11-20",
+   "listing": "2026-11-26",
+   "issue_price": 272.0,
+   "anant": "B",
+   "call": "SKIP",
+   "tracked": true,
+   "gmp_at_close": 5.15,
+   "sub_total": 16.72,
+   "sub_retail": 8.37,
+   "listed": false,
+   "you": null
   }
  },
- "updated_at": "2026-11-06T01:41+05:30"
+ "updated_at": "2026-11-20T16:28+05:30"
 }
