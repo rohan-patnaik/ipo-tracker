@@ -539,12 +539,12 @@
    "anant": "B",
    "call": "SKIP",
    "tracked": true,
-   "gmp_at_close": 5.15,
-   "sub_total": 16.72,
-   "sub_retail": 8.37,
+   "gmp_at_close": 6.25,
+   "sub_total": 17.68,
+   "sub_retail": 9.71,
    "listed": false,
    "you": null
   }
  },
- "updated_at": "2026-11-20T16:28+05:30"
+ "updated_at": "2026-11-21T00:32+05:30"
 }
