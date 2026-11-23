@@ -544,7 +544,45 @@
    "sub_retail": 9.71,
    "listed": false,
    "you": null
+  },
+  "mahanadi-coalfields-ipo": {
+   "locked_at": "2026-11-23T14:25+05:30",
+   "why": "Fails: Anant, GMP.",
+   "checks": [
+    [
+     "Anant",
+     false,
+     "Rated B"
+    ],
+    [
+     "GMP",
+     false,
+     "5.2% < 15%"
+    ],
+    [
+     "QIB",
+     true,
+     "1.45× ≥ 1×"
+    ]
+   ],
+   "warn": null,
+   "gmp_at_call": 5.15,
+   "name": "Mahanadi Coalfields",
+   "slug": "mahanadi-coalfields-ipo",
+   "id": "3247",
+   "board": "mainboard",
+   "close": "2026-11-23",
+   "listing": "2026-11-27",
+   "issue_price": 136.0,
+   "anant": "B",
+   "call": "SKIP",
+   "tracked": true,
+   "gmp_at_close": 5.15,
+   "sub_total": 0.57,
+   "sub_retail": 0.34,
+   "listed": false,
+   "you": null
   }
  },
- "updated_at": "2026-11-21T00:32+05:30"
+ "updated_at": "2026-11-23T14:25+05:30"
 }
